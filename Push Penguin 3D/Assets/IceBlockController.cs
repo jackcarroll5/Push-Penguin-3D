@@ -18,7 +18,9 @@ public class IceBlockController : MonoBehaviour, IMoveable {
     public void push(Vector3 pusherPosition)
     {
         // Find info for movement from world;
-        //destinationForSlide = world.getDestinationForIceblock(this, pusherPosition);
+        //
+
+        destinationForSlide = world.getDestinationForIceblock(this, pusherPosition);
         // if destination is the same as position destroy block;
 
         velocity = speedOfIceBlock * (destinationForSlide - transform.position).normalized; // check for 0
@@ -28,7 +30,7 @@ public class IceBlockController : MonoBehaviour, IMoveable {
 
     // Use this for initialization
     void Start () {
-		
+
 	}
 	
 	// Update is called once per frame
@@ -74,11 +76,16 @@ public class IceBlockController : MonoBehaviour, IMoveable {
 
     }
 
+    internal void ThisIsMe(WorldControl worldControl)
+    {
+        world = worldControl;
+    }
+
     private void test()
     {
-        transform.position = new Vector3(1, 0, 7);
-        destinationForSlide = new Vector3(5, 0, 7);
-        push(new Vector3(0, 0, 0));
+     
+
+        push(new Vector3(1.1f, 0, 6.5f));
        
     }
 
