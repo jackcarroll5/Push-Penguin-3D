@@ -16,6 +16,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     /// Pointer to the world to call functions like getDestinationForIceBlock
     /// </summary>
     private WorldControl world;
+    private WorldControllerMockUp worldMockUp;
     private Vector3 destinationForSlide;
     private Vector3 velocity;
     private float speedOfIceBlock = 2.0f; 
@@ -31,11 +32,17 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     /// <param name="pusherPosition">the position of the object who wants to move the iceblock</param>
     public void push(Vector3 pusherPosition)
     {
-        if (world == null)
-            throw new Exception("You must call \"ThisIsMe\" after creating this object or the movement won't work!");
+        Debug.Log("Push Called!");
 
-        // Find info for movement from world;
-        destinationForSlide = world.getDestinationForIceblock(this, pusherPosition);
+        if(world == null && worldMockUp != null)
+            // Find info for movement from world;
+            destinationForSlide = worldMockUp.getDestinationForIceblock(this, pusherPosition);
+        else if (world == null)
+            throw new Exception("You must call \"ThisIsMe\" after creating this object or the movement won't work!");
+        else
+            // Find info for movement from world;
+            destinationForSlide = world.getDestinationForIceblock(this, pusherPosition);
+        
         // if destination is the same as position destroy block;
         velocity = speedOfIceBlock * (destinationForSlide - transform.position).normalized; // check for 0
         currentState = IceBlockState.Moving;
@@ -71,6 +78,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
                 //if direction change, stop moving (and jump to destination if over?)
                 if (DestinationReached())
                 {
+                    Debug.Log("DestinationReached!");
                     currentState = IceBlockState.Still;
                     transform.position = destinationForSlide;
                 }                
@@ -87,6 +95,11 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
         world = worldControl; 
     }
 
+    internal void ThisIsMe(WorldControllerMockUp worldControl)
+    {
+        worldMockUp = worldControl;
+    }
+
     /// <summary>
     /// Testfunction for Debugingpurpose
     /// </summary>
@@ -94,7 +107,10 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            push(new Vector3(1.1f, 0, 6.5f));
+            this.transform.position = new Vector3(0, 0, 0);
+            var debugmsg = String.Format("Start Pushingtest: Position is x={0},y={1},z={2},", this.transform.position.x, this.transform.position.y, this.transform.position.z);
+            Debug.Log(debugmsg);
+            push(new Vector3(1, 0, 0));
         }   
     }
 
@@ -113,6 +129,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     /// <returns></returns>
     public Hit OnHit()
     {
+        Debug.Log("OnHit!");
         throw new NotImplementedException();
     }
 
@@ -122,6 +139,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     /// <returns>destoried or not</returns>
     public bool DoDestroy()
     {
+        Debug.Log("DoDestroy!");
         throw new NotImplementedException();
     }
 }

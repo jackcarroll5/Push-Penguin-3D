@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1413022544}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddb1e0644ed2e954588323ffae0702a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 204aa5c02831ef44695ee5c5548d8471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IceBlockPreFab: {fileID: 4193283141135696, guid: 67012d36547442841b75fe29a38a5a2c,
