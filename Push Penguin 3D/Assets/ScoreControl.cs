@@ -1,11 +1,21 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreControl : MonoBehaviour {
+public class ScoreControl : MonoBehaviour, iScore {
 
-	// Use this for initialization
-	void Start () {
+    int currentScore;
+
+
+    public void AddScore(int scoreIncrement)
+    {
+        currentScore += scoreIncrement;
+    }
+
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
