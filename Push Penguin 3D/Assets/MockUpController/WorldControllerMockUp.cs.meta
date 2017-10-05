@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 204aa5c02831ef44695ee5c5548d8471
+timeCreated: 1507109938
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - IceBlockPreFab: {fileID: 4193283141135696, guid: 67012d36547442841b75fe29a38a5a2c,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
