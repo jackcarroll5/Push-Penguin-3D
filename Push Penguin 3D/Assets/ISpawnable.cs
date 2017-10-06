@@ -7,17 +7,14 @@ public interface ISpawnable {
     //and adds them to the list of that item
 
     //Spawns the player
-    int playerSpawn();
+    int PlayerSpawn();
 
     //Spawns an enemy
-    int enemySpawn();
+    int EnemySpawn();
 
     //Spawns an item
-    int itemSpawn();
-
-    //Spawns an iceblock
-    int iceBlockSpawn();
+    int ItemSpawn();
 
     //Spawns an egg
-    int eggSpawn();
+    int EggSpawn();
 }

@@ -7,8 +7,8 @@ public interface IScorable {
     //correct score when the player collides with an item
 
     //Defines the score values of each item
-    void setScore();
+    void SetScore(char item);
 
     //Adds the correct score to the current score
-    int addScore();
+    int AddScore(char item, int currentScore);
 }
