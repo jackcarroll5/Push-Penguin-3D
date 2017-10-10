@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PenguinArea : MonoBehaviour
+public class PenguinArea : MonoBehaviour,ISpawnable,IDestoryable,IHitable
 {
     private float heightOfWorldFloor = 0.0f;
     public Transform IceBlockPreFab,WallPrefab;
     private int widthOfWorld = 20;
     private int depthOfWorld = 20;
-
+    public int max, min;
+    //public GameObject[] ranIceBlocks;
+    //public Transform[] spawn;
 
 
 
@@ -17,8 +19,6 @@ public class PenguinArea : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
-        GameObject iceblock = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         //Creates rocks for area to be placed at the edges of the arena
 
         //rock.name = "Rock Edge ";
@@ -93,6 +93,10 @@ public class PenguinArea : MonoBehaviour
     {
         Transform newBie = Instantiate(IceBlockPreFab, SnapTo(v, v.y), Quaternion.identity);
 
+
+
+
+
     }
 
 
@@ -103,5 +107,48 @@ public class PenguinArea : MonoBehaviour
 
     }
 
-    
+    public int playerSpawn()
+    {
+        throw new NotImplementedException();
     }
+
+    public int enemySpawn()
+    {
+        throw new NotImplementedException();
+    }
+
+    public int itemSpawn()
+    {
+        throw new NotImplementedException();
+    }
+
+    public int iceBlockSpawn()
+    {
+        throw new NotImplementedException();
+        //int x, y, z;
+        //int prefabNo = Random.Range(0,5);
+        //int blockNo = Random.Range(0,4);
+        //Instantiate(ranIceBlocks[prefabNo],spawn[blockNo].position,spawn,spawn.rotation);
+
+        //x = UnityEngine.Random.Range(min, max);
+        //y = UnityEngine.Random.Range(min, max);
+        //z = UnityEngine.Random.Range(min, max);
+
+    }
+
+    public int eggSpawn()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool DoDestroy()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Hit OnHit()
+    {
+        throw new NotImplementedException();
+    }
+
+}
