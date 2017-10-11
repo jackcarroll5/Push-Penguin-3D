@@ -111,5 +111,12 @@ public class PenguinControl : Movement {
     public void OnTriggerEnter(Collider other)
     {
         Debug.Log("Trigger Activated");
+        //currentSpeed = 0;
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        Debug.Log("Trigger De-activated");
+        currentSpeed = 10.0f;
     }
 }
