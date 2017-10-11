@@ -9,7 +9,7 @@ public class EggControl : MonoBehaviour
     public float TimeCount, Timer = 3;
     public GameObject Enemy;
     Vector3 CurrentPosition;
-
+    // Variables Declared
     void Start()
     {
         NotInIce = true;
