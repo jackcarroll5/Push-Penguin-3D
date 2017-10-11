@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManagerControl : MonoBehaviour, IScorable, ISpawnable{
+public class GameManagerControl : MonoBehaviour, ISpawnable
+{ //IScorable,
     enum ItemType { Apple,Banana,Cherry}
 
     private int currentEggs;
@@ -51,38 +52,38 @@ public class GameManagerControl : MonoBehaviour, IScorable, ISpawnable{
 
   
 
-    public int AddScore(char item, int currentScore)
-    {
-        List<ItemType> myList = new List<ItemType>();
+    //public int AddScore(char item, int currentScore)
+    //{
+    //    List<ItemType> myList = new List<ItemType>();
 
-        foreach (ItemType i in myList)
-            if (i== currentlyActiveType) 
+    //    foreach (ItemType i in myList)
+    //        if (i== currentlyActiveType) 
 
-        switch(item)
-        {
-            case 'A':
-                {
-                    currentScore += apple.getScore();
-                    break;
-                }
-            case 'B':
-                {
-                    currentScore += banana.getScore();
-                    break;
-                }
-            case 'C':
-                {
-                    currentScore += cherry.getScore();
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
+    //    switch(item)
+    //    {
+    //        case 'A':
+    //            {
+    //                currentScore += apple.getScore();
+    //                break;
+    //            }
+    //        case 'B':
+    //            {
+    //                currentScore += banana.getScore();
+    //                break;
+    //            }
+    //        case 'C':
+    //            {
+    //                currentScore += cherry.getScore();
+    //                break;
+    //            }
+    //        default:
+    //            {
+    //                break;
+    //            }
+    //    }
 
-        return currentScore;
-    }
+    //    return currentScore;
+    //}
 
     public void SetScore(char item)
     {
