@@ -140,6 +140,14 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
             Debug.Log("Iceblock was moving, stop it");
             this.currentState = IceBlockState.Still;
         }
+        
+        //info: Get the type of the object we collide into
+        var bla = other.gameObject.GetComponent<IceBlockController>();
+        var isIceBlock = (bla != null);
+        if (isIceBlock)
+            Debug.Log("Collider is a IceBlock");
+        else
+            Debug.Log("Collider is not a IceBlock");
         //Destroy(other.gameObject);
     }
 
