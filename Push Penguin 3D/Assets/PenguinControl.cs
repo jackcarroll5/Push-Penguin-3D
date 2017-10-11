@@ -15,56 +15,39 @@ public class PenguinControl : Movement {
     public Vector3 getPlayerPosition() {
         return playerPosition;
 	}
-    public void setPosition(Vector3 setPos) 
+    public void setPlayerPosition(Vector3 setPos) 
     {
         this.transform.position = playerPosition;
     }
 
 	// Use this for initialization
 	void Start () {
-        transform.GetChild(0);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
         if (shouldMoveForward()) MoveForward();
+        playerPosition = this.transform.position;
 
         if (shouldTurnLeft()) TurnLeft();
+        playerPosition = this.transform.position;
 
         if (shouldMoveBackward()) MoveBackward();
+        playerPosition = this.transform.position;
 
         if (shouldTurnRight()) TurnRight();
+        playerPosition = this.transform.position;
 
         if (shouldStrafeLeft()) StrafeLeft();
+        playerPosition = this.transform.position;
 
         if (shouldStrafeRight()) StrafeRight();
+        playerPosition = this.transform.position;
 
-
-
-
-      /* playerPosition = this.getPlayerPosition();
-
-        Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-		if (direction.x != 0)
-        {
-            MoveX(gameObject, direction.x);
-        }
-        if (direction.z != 0)
-        {
-            MoveZ(gameObject, direction.z);
-        }*/
-
-        //mouse movement
-        //
-
-        //if()
-
-        
-            
+        //Debug.Log(playerPosition.ToString());
 
     }
-
     private bool shouldStrafeRight()
     {
         return Input.GetKey(KeyCode.E);
@@ -123,5 +106,10 @@ public class PenguinControl : Movement {
     private bool shouldMoveForward()
     {
         return Input.GetKey(KeyCode.W);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Trigger Activated");
     }
 }
