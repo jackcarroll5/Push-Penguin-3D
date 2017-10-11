@@ -5,15 +5,17 @@ using UnityEngine;
 public class NPCControl : MonoBehaviour, IDestoryable {
 
     private Vector3 destination;
-    private bool hasDestination;
+    private enum Status { waiting, moving, still };
+    private Status status;
+
     private static Transform NPCParent;
     private Transform raycastTarget;
 
-    private int moveSpeed = 5;
+    private int moveSpeed = 3;
 
     // Use this for initialization
     void Start () {
-        hasDestination = false;
+        status = Status.waiting;
         if (NPCParent == null)
         {
             NPCParent = new GameObject("NPC Parent").transform;
@@ -23,34 +25,37 @@ public class NPCControl : MonoBehaviour, IDestoryable {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (!hasDestination)
+	void Update ()
+    {
+        Debug.DrawRay(transform.position, transform.right * 2, Color.red);
+        if (status == Status.waiting)
         {
             //Set destination
             RaycastHit hit;
 
-            Debug.DrawRay(transform.position, raycastTarget.position * 5, Color.red);
-            Physics.Raycast(transform.position, raycastTarget.position * 5, out hit, 2.5f);
-            if (hit.rigidbody == null)
+            Physics.Raycast(transform.position, transform.right, out hit);
+            if (hit.rigidbody != null)
             {
                 //temp for testing
-                destination = (transform.position + raycastTarget.localPosition * 10);
-                hasDestination = true;
+                destination = hit.rigidbody.position - (hit.rigidbody.position - transform.position).normalized;//(transform.position + raycastTarget.localPosition * 5);
+                status = Status.moving;
             }
-            else //rotate 90 degrees and try again
-                transform.Rotate(0, -90, 0);
-
         }
-        else
+        else if (status == Status.moving)
         {
             //Move towards destination
-            if ((destination - transform.position).magnitude > 0.5f)
+            if ((destination - transform.position).magnitude > 0.06f)
             {
                 Vector3 velocity = moveSpeed * (destination - transform.position).normalized;
                 transform.position += velocity * Time.deltaTime;
             }
             else
-                hasDestination = false;
+            {
+                status = Status.still;
+                StartCoroutine(waitForNewDestination(1));
+                //rotate 90 degrees and try again
+                transform.Rotate(0, -90, 0);
+            }
         }
 
     }
@@ -62,4 +67,10 @@ public class NPCControl : MonoBehaviour, IDestoryable {
         return true;
     }
     
+    IEnumerator waitForNewDestination(int time)
+    {
+        yield return new WaitForSeconds(time);
+        status = Status.waiting;
+        
+    }
 }
