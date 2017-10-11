@@ -20,5 +20,10 @@ public class Movement : MonoBehaviour {
         character.transform.position += velocity * Time.deltaTime;
     }
 
+    public void TurnLeft(GameObject pickUpItem, float direction)
+    {
+        pickUpItem.transform.Rotate(Vector3.up, speed * Time.deltaTime);
+    }
+
 
 }
