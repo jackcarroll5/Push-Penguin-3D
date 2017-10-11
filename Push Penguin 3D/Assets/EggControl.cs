@@ -2,15 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EggControl : MonoBehaviour {
+public class EggControl : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public bool NotInIce, IceDestroyed;
+    public float TimeCount, Timer = 3;
+    public GameObject Enemy;
+    Vector3 CurrentPosition;
+
+    void Start()
+    {
+        NotInIce = true;
+        IceDestroyed = false;
+        TimeCount = Time.time + Timer;
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (Input.GetKeyDown(KeyCode.A))
+            IceDestroyed = true;
+
+        SpawnEnemy();
+    }
+
+    void SpawnEnemy()
+    {
+        if (Time.time > TimeCount && NotInIce == true)
+        {
+
+            CurrentPosition = transform.position;
+            Instantiate(Enemy, CurrentPosition, Quaternion.identity);
+            Destroy(this.gameObject);
+        }
+
+        if (IceDestroyed == true && NotInIce == true)
+        {
+
+            CurrentPosition = transform.position;
+            Instantiate(Enemy, CurrentPosition, Quaternion.identity);
+            Destroy(this.gameObject);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.tag == "Ice")
+            NotInIce = false;
+
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+
+        if (other.tag == "Ice")
+            NotInIce = true;
+        TimeCount = 0;
+
+    }
 }
