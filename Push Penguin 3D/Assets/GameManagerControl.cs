@@ -53,6 +53,7 @@ public class GameManagerControl : MonoBehaviour, IScorable, ISpawnable{
 
     public int AddScore(char item, int currentScore)
     {
+        /*
         List<ItemType> myList = new List<ItemType>();
 
         foreach (ItemType i in myList)
@@ -79,7 +80,7 @@ public class GameManagerControl : MonoBehaviour, IScorable, ISpawnable{
                 {
                     break;
                 }
-        }
+        }*/
 
         return currentScore;
     }

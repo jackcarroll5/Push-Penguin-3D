@@ -4,11 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PopUpScoreControl : MonoBehaviour, IPopUp {
-
-
+    public Animator myAnimation;
     int myScore;
-    GameObject g;
-    int number; 
+
+    Text myText;
 
 
     public void WithScoreOf(int score)
@@ -25,16 +24,22 @@ public class PopUpScoreControl : MonoBehaviour, IPopUp {
     // Use this for initialization
     void Start ()
     {
-        
-        g = transform.GetChild(0).GetChild(0).gameObject;
-        g.GetComponent<Text>().text =  "" + RandomNumGen(1,255);
-	}
+        myText = GetComponentInChildren<Text>();
+        myText.text = "" + RandomNumGen(1, 255);
+
+        myAnimation = GetComponentInChildren<Animator>();
+      
+
+       // AnimatorClipInfo[] clipInfo = myAnimation.GetCurrentAnimatorClipInfo(0);
+       // Destroy(gameObject, clipInfo[0].clip.length);
+
+
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        //todo Add alpha detection
-        if()
+        //if(myAnimation.)
         {
 
         }
