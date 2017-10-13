@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
+
+
+public class GameManagerControl : MonoBehaviour{
+
     public enum ItemType { Apple,Banana,Cherry}
+
 
     private List<EggControl> eggs;
     private List<PickUpItemControl> items;
@@ -14,13 +18,17 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
     public Transform itemClone;
 
-    WorldControl theWorld;
-    public void EggSpawn(EggControl egg)
-    {
-        //Spawn Egg
 
-        eggs.Add(egg);
-    }
+    WorldControl theWorld;
+
+ 
+    //public int EggSpawn()
+
+    //{
+    //    //Spawn Egg
+
+    //    eggs.Add(egg);
+    //}
 
     public void EnemySpawn(NPCControl enemy)
     {
@@ -43,16 +51,16 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
     private void ItemSpawnAt(ItemType newItemType, Vector3 positionToSpawn)
     {
+
         Transform newItem = Instantiate(itemClone, positionToSpawn, Quaternion.identity);
         PickUpItemControl newItemControl = newItem.GetComponent<PickUpItemControl>();
-
         newItemControl.YouAre(newItemType, 100 * (1 + (int)newItemType), 10);
-
         items.Add(newItemControl);
     }
 
 
     public void PlayerSpawn(PenguinControl player)
+
     {
         //spawn Player
 
@@ -62,7 +70,9 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
     }
   
 
-    public void AddScore(int score)
+
+    /* public int AddScore(char item, int currentScore)
+
     {
 
         int scoreToAdd;
@@ -125,7 +135,9 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
         */
 
 
-    }
+  
+
+
 
     public void SetScore(char item)
     {
@@ -194,6 +206,7 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
     // Use this for initialization
     void Start () {
+        theWorld = FindObjectOfType<WorldControl>();
 
         theWorld = FindObjectOfType<WorldControl>();
 

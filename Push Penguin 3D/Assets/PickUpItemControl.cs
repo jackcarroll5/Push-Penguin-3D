@@ -1,5 +1,5 @@
 ﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,17 +7,21 @@ using UnityEngine;
 public class PickUpItemControl : MonoBehaviour
 {
 
+
     private int _points = 100;
     private int minimumPoints = 50;
     private int maximumPoints = 250;
 
+
     private float _timeAlive = 30; //Secounds
+
 
 
     public Transform Cherry, Apple, Banana;
     public Transform Popup;
 
     GameManagerControl theManager;
+
     void Start()
     {
 
@@ -30,6 +34,7 @@ public class PickUpItemControl : MonoBehaviour
         CountdownAndDestroyYourself();
     }
 
+
     public int points
     {
         get
@@ -39,6 +44,7 @@ public class PickUpItemControl : MonoBehaviour
 
         set
         {
+
             if (value <= minimumPoints)
             {
                 _points = minimumPoints;
@@ -48,11 +54,18 @@ public class PickUpItemControl : MonoBehaviour
                 _points = maximumPoints;
             }
             else
+
+            if(value <= minimumPoints)
             {
-                _points = value;
-            }
+                _points = minimumPoints;
+            } else if (value >= maximumPoints)
+            {
+                _points = maximumPoints;
+            } else
+
         }
     }
+
 
     private float timeAlive
     {
@@ -81,11 +94,18 @@ public class PickUpItemControl : MonoBehaviour
     }
 
 
+    // Use this for initialization
+    void Start () {
+
+	}
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<PenguinControl>())
         {
             Transform newPopup = Instantiate(Popup, transform.position, Quaternion.identity);
+
             newPopup.GetComponent<PopUpScoreControl>().WithScoreOf(_points);
             theManager.ItemDestroyed(this);
             Destroy(gameObject);
@@ -94,12 +114,13 @@ public class PickUpItemControl : MonoBehaviour
 
     }
 
-    //Communication with Gamemanager
-    internal void YouAre(GameManagerControl.ItemType typeOfItem, int score, int time)
+
+
+    internal void YouAre(GameManagerControl.ItemType typeOfItem, int Score, int time)
     {
-        // Switch 3D model
         Transform part;
-        switch (typeOfItem)
+      switch (typeOfItem)
+
         {
             case GameManagerControl.ItemType.Apple:
 
@@ -122,6 +143,7 @@ public class PickUpItemControl : MonoBehaviour
 
 
         }
+
         part.transform.parent = transform;
 
         //set Score
@@ -131,5 +153,13 @@ public class PickUpItemControl : MonoBehaviour
         this.timeAlive = time;
 
     }
+
+
+  
+
+    // Update is called once per frame
+    void Update () {
+  
+	}
 
 }
