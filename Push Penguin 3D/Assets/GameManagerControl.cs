@@ -49,6 +49,7 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
     public void AddScore(int score)
     {
+
         int scoreToAdd;
 
         switch(whatDestroyed)
@@ -79,6 +80,7 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
         /*List<ItemType> myList = new List<ItemType>();
 
+
         foreach (ItemType i in myList)
             if (i== currentlyActiveType) 
 
@@ -103,8 +105,11 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
                 {
                     break;
                 }
+
         }
         */
+
+
     }
 
     public void SetScore(char item)
