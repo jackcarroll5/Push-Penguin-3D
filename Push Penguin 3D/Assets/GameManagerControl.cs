@@ -2,58 +2,112 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+<<<<<<< HEAD
 public class GameManagerControl : MonoBehaviour,IScorable,ISpawnable{
     enum ItemType { Apple,Banana,Cherry}
+=======
+>>>>>>> Rob's_Folder/master
 
-    private int currentEggs;
+
+public class GameManagerControl : MonoBehaviour{
+
+    public enum ItemType { Apple,Banana,Cherry}
+
+
     private List<EggControl> eggs;
     private List<PickUpItemControl> items;
-    private int currentEnemies;
+    private List<NPCControl> enemies;
+    private List<PenguinControl> player;
+    private int whatDestroyed;
+    /*private int currentEnemies;
     private int currentItems;
     private int players;
+    private int currentEggs;*/
 
-    public int EggSpawn()
-    {
-        //Spawn Egg
 
-        currentEggs++;
+    WorldControl theWorld;
 
-        return currentEggs;
-    }
+    public Transform itemClone;
+    //public int EggSpawn()
 
-    public int EnemySpawn()
+    //{
+    //    //Spawn Egg
+
+    //    eggs.Add(egg);
+    //}
+
+    public void EnemySpawn(NPCControl enemy)
     {
         //Spawn Enemy
 
-        currentEnemies++;
-
-        return currentEnemies;
+        enemies.Add(enemy);
     }
 
-    public int ItemSpawn()
+    public void ItemSpawn(PickUpItemControl item)
     {
-        //spawn Item
 
-        currentItems++;
 
-        return currentItems;
+        Vector3 positionForNewItem = theWorld.positionForItem();
+
+        Transform newbie = Instantiate(itemClone, positionForNewItem, Quaternion.identity);
+        PickUpItemControl itemControl = newbie.GetComponent<PickUpItemControl>();
+        itemControl.YouAre(ItemType.Apple, 500, 30);
+        items.Add(itemControl);
+
+
     }
 
-    public int PlayerSpawn()
+
+    public void PlayerSpawn(PenguinControl player)
+
     {
         //spawn Player
 
-        players++;
+        this.player.Add(player);
 
-        return players;
+
     }
-
-
   
 
-    public int AddScore(char item, int currentScore)
+
+    /* public int AddScore(char item, int currentScore)
+
     {
+<<<<<<< HEAD
        /* List<ItemType> myList = new List<ItemType>();
+=======
+
+        int scoreToAdd;
+
+        switch(whatDestroyed)
+        {
+            case '1':
+                {
+                    scoreToAdd = 100;
+
+                    break;
+                }
+
+            case '2':
+                {
+                    scoreToAdd = 250;
+
+                    break;
+                }
+
+            default:
+                {
+                    scoreToAdd = 0;
+
+                    break;
+                }
+        }
+
+        score += scoreToAdd;
+
+        /*List<ItemType> myList = new List<ItemType>();
+
+>>>>>>> Rob's_Folder/master
 
         foreach (ItemType i in myList)
             if (i== currentlyActiveType) 
@@ -79,38 +133,48 @@ public class GameManagerControl : MonoBehaviour,IScorable,ISpawnable{
                 {
                     break;
                 }
+
         }
         */
+<<<<<<< HEAD
         return currentScore;
     }
+=======
+
+
+  
+
+
+>>>>>>> Rob's_Folder/master
 
     public void SetScore(char item)
     {
-        int minScore = 50;
-        int maxScore = 250;
+        
+        
 
-        switch (item)
+        /*switch (item)
         {
             case 'A':
                 {
-                    //apple.setScore(minScore);
-                    break;
+                    //apple.points(minScore);
+                  
+                      break;
                 }
             case 'B':
                 {
-                    //banana.setScore(minScore*1.25f);
+                    //banana.points(minScore*1.25f);
                     break;
                 }
-            case 'C':
+            case 'S':
                 {
-                    //cherry.setScore(maxScore);
+                    //starberry.points(maxScore);
                     break;
                 }
             default:
                 {
                     break;
                 }
-        }
+        }*/
     }
 
     public void ItemDestroyed(PickUpItemControl  item)
@@ -120,14 +184,51 @@ public class GameManagerControl : MonoBehaviour,IScorable,ISpawnable{
 
     }
 
+    public void EnemyDestroyed(PickUpItemControl enemy)
+    {
+
+        //enemies.Remove(enemy);
+
+        //AddScore(ScoreControl.currentScore);
+        whatDestroyed = 2;
+    }
+
+    public void EggDestroyed(EggControl egg)
+    {
+
+        eggs.Remove(egg);
+
+        //AddScore(ScoreControl.currentScore);
+        whatDestroyed = 1;
+
+    }
+
+    public void PlayerDestroyed(PenguinControl penguin)
+    {
+
+        player.Remove(penguin);
+
+    }
+
+
+
     // Use this for initialization
     void Start () {
+        theWorld = FindObjectOfType<WorldControl>();
 
         eggs = new List<EggControl>();
         items = new List<PickUpItemControl>();
+        enemies = new List<NPCControl>();
+        player = new List<PenguinControl>();
+
 
     }
 	
+
+    public void startOfWorld()
+    {
+
+    }
 	// Update is called once per frame
 	void Update () {
 		

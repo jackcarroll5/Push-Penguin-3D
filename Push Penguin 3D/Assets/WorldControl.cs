@@ -70,6 +70,11 @@ public class WorldControl : MonoBehaviour {
         return positionOfIceBlock;
     }
 
+    internal Vector3 positionForItem()
+    {
+        throw new NotImplementedException();
+    }
+
     private Vector3 SnapTo(Vector3 v)
     {
         return new Vector3(Mathf.RoundToInt(v.x), heightOfWorldFloor , Mathf.RoundToInt(v.z));
