@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 8dd815d9b50ed164397583b48003c5a1
-timeCreated: 1507713140
+guid: 0f94bda00b8707649b8b85681e1fcc96
+timeCreated: 1507883459
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
@@ -19,9 +19,10 @@ ModelImporter:
     3300000: cherry1
     3300002: cherry2
     3300004: cherrystem
-    4300000: cherry1
+    4300000: cherrystem
     4300002: cherry2
-    4300004: cherrystem
+    4300004: cherry1
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -91,7 +92,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

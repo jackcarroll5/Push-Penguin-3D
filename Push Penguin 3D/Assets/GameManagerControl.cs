@@ -4,9 +4,9 @@ using UnityEngine;
 
 
 
-public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
+public class GameManagerControl : MonoBehaviour{
 
-    enum ItemType { Apple,Banana,Cherry}
+    public enum ItemType { Apple,Banana,Cherry}
 
 
     private List<EggControl> eggs;
@@ -23,13 +23,13 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
     WorldControl theWorld;
 
     public Transform itemClone;
-    public int EggSpawn()
+    //public int EggSpawn()
 
-    {
-        //Spawn Egg
+    //{
+    //    //Spawn Egg
 
-        eggs.Add(egg);
-    }
+    //    eggs.Add(egg);
+    //}
 
     public void EnemySpawn(NPCControl enemy)
     {
@@ -47,8 +47,7 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
         Transform newbie = Instantiate(itemClone, positionForNewItem, Quaternion.identity);
         PickUpItemControl itemControl = newbie.GetComponent<PickUpItemControl>();
         itemControl.YouAre(ItemType.Apple, 500, 30);
-        currentItems++;
-        items.Add(item);
+        items.Add(itemControl);
 
 
     }
@@ -130,8 +129,8 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
         */
 
 
-    }
-    */
+  
+
 
 
     public void SetScore(char item)
