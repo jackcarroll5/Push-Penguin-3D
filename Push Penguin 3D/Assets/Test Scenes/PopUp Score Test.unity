@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 877907250}
   - component: {fileID: 877907255}
   - component: {fileID: 877907256}
+  - component: {fileID: 877907257}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -323,7 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IceBlockPreFab: {fileID: 4193283141135696, guid: 67012d36547442841b75fe29a38a5a2c,
     type: 2}
-  WallPrefab: {fileID: 4871014725579364, guid: 38ce7d5f8af6f2d4a8a459e04ff7f0d9, type: 2}
+  WallPrefab: {fileID: 4871014725579364, guid: 6228aa6805893f34883b27554864baaf, type: 2}
 --- !u!114 &877907256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,7 +336,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30662a5802c458148a7be3b9cbdbd075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemClone: {fileID: 0}
+  itemClone: {fileID: 4476316743617700, guid: 34b3e33f34aba664b86a58b851966f39, type: 2}
+--- !u!114 &877907257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 877907249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb1e0644ed2e954588323ffae0702a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IceBlockPreFab: {fileID: 4193283141135696, guid: 67012d36547442841b75fe29a38a5a2c,
+    type: 2}
 --- !u!1 &1007277000 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1170125877889130, guid: d86a28819880e7f478bfb31f549e00b5,

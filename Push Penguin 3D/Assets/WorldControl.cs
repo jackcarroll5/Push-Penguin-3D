@@ -34,7 +34,7 @@ public class WorldControl : MonoBehaviour {
 
 
     internal Vector3 randomEmptyPosition()
-{}
+    { return new Vector3(0, 0, 0); }
 
 
     internal Vector3 positionForItem()

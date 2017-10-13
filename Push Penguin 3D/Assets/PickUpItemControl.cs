@@ -26,7 +26,7 @@ public class PickUpItemControl : MonoBehaviour
     {
 
 
-
+        theManager = FindObjectOfType<GameManagerControl>();
     
     }
     void Update()
@@ -61,7 +61,7 @@ public class PickUpItemControl : MonoBehaviour
             } else if (value >= maximumPoints)
             {
                 _points = maximumPoints;
-            } else
+            } 
 
         }
     }
@@ -94,10 +94,7 @@ public class PickUpItemControl : MonoBehaviour
     }
 
 
-    // Use this for initialization
-    void Start () {
 
-	}
 
 
     private void OnCollisionEnter(Collision collision)
@@ -147,7 +144,7 @@ public class PickUpItemControl : MonoBehaviour
         part.transform.parent = transform;
 
         //set Score
-        this.points = score;
+        this.points = Score;
 
         //set Countsown
         this.timeAlive = time;
@@ -157,9 +154,5 @@ public class PickUpItemControl : MonoBehaviour
 
   
 
-    // Update is called once per frame
-    void Update () {
-  
-	}
 
 }

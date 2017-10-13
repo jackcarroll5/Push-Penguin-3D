@@ -208,8 +208,8 @@ public class GameManagerControl : MonoBehaviour{
     void Start () {
         theWorld = FindObjectOfType<WorldControl>();
 
-        theWorld = FindObjectOfType<WorldControl>();
-
+        if (theWorld) print("found the world");
+        else print("No world");
         eggs = new List<EggControl>();
         items = new List<PickUpItemControl>();
         enemies = new List<NPCControl>();
