@@ -8,7 +8,7 @@ public class PopUpScoreControl : MonoBehaviour, IPopUp {
     int myScore;
 
     Text myText;
-
+    float time;
 
     public void WithScoreOf(int score)
     {
@@ -16,16 +16,12 @@ public class PopUpScoreControl : MonoBehaviour, IPopUp {
       
     }
 
-    //public void example()
-    //{
-
-    //}
-
     // Use this for initialization
     void Start ()
     {
+        time = Time.time;
         myText = GetComponentInChildren<Text>();
-        myText.text = "" + RandomNumGen(1, 255);
+        myText.text = "tree fiddy";
 
         myAnimation = GetComponentInChildren<Animator>();
       
@@ -39,20 +35,12 @@ public class PopUpScoreControl : MonoBehaviour, IPopUp {
 	// Update is called once per frame
 	void Update ()
     {
-        //if(myAnimation.)
+        if (Time.time - time >= 1.01f)
         {
+            Destroy(myText);
+            Destroy(myAnimation);
 
         }
-    }
-    List<int> usedValues = new List<int>();
-    private int RandomNumGen(int min, int max)
-    {
-        int val = Random.Range(min, max);
-        while(usedValues.Contains(val))
-        {
-            val = Random.Range(min, max);
-        }
-        return val;
     }
 }
 //https://www.youtube.com/watch?v=fbUOG7f3jq8
