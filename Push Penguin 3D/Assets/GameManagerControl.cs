@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
+
     enum ItemType { Apple,Banana,Cherry}
 
     private List<EggControl> eggs;
@@ -111,6 +113,7 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
 
     }
+
 
     public void SetScore(char item)
     {
