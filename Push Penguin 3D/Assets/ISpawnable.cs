@@ -7,14 +7,14 @@ public interface ISpawnable {
     //and adds them to the list of that item
 
     //Spawns the player
-    int PlayerSpawn();
+    int PlayerSpawn(PenguinControl player);
 
     //Spawns an enemy
-    int EnemySpawn();
+    int EnemySpawn(NPCControl enemy);
 
     //Spawns an item
-    int ItemSpawn();
+    int ItemSpawn(PickUpItemControl item);
 
     //Spawns an egg
-    int EggSpawn();
+    int EggSpawn(EggControl egg);
 }

@@ -1,16 +1,99 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUpItemControl : MonoBehaviour {
+public class PickUpItemControl : MonoBehaviour, IPoints {
 
-	// Use this for initialization
-	void Start () {
-		
+    private int _points = 100;
+    private int minimumPoints = 50;
+    private int maximumPoints = 250;
+
+    public Transform Cherry, Apple, Banana;
+    public Transform Popup;
+
+    GameManagerControl theManager;
+    public int points
+    {
+        get
+        {
+            return _points;
+        }
+
+        set
+        {
+            if(value <= minimumPoints)
+            {
+                _points = minimumPoints;
+            } else if (value >= maximumPoints)
+            {
+                _points = maximumPoints;
+            } else
+            {
+                _points = value;
+            }
+        }
+    }
+
+
+    // Use this for initialization
+    void Start () {
+
+        System.Random r;
+        r = new System.Random();
+
+
+        YouAre((GameManagerControl.ItemType) r.Next(1, 3), 200, 30);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<PenguinControl>())
+        {
+         Transform newPopup =   Instantiate(Popup, transform.position, Quaternion.identity);
+            newPopup.GetComponent<PopUpScoreControl>().WithScoreOf(_points);
+            theManager.ItemDestroyed(this);
+            Destroy(gameObject);
+        }
+
+
+    }
+
+    internal void YouAre(GameManagerControl.ItemType typeOfItem, int Score, int time)
+    {
+        Transform part;
+      switch (typeOfItem)
+        {
+            case GameManagerControl.ItemType.Apple:
+
+                part = Instantiate(Apple, transform.position, Quaternion.identity);
+
+
+                break;
+
+            case GameManagerControl.ItemType.Cherry:
+
+                part = Instantiate(Cherry, transform.position, Quaternion.identity);
+
+
+                break;
+
+            default:
+
+                part = Instantiate(Banana, transform.position, Quaternion.identity);
+                break;
+
+
+        }
+
+        part.transform.parent = transform;
+
+    }
+
+  
+
+    // Update is called once per frame
+    void Update () {
+  
 	}
 }

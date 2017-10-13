@@ -112,6 +112,15 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
             Debug.Log(debugmsg);
             push(new Vector3(1, 0, 0));
         }   
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            Debug.Log("Create second block");
+            this.worldMockUp.CreateIceBlockAt(new Vector3(-3, 0, 0));
+            this.transform.position = new Vector3(0, 0, 0);
+            var debugmsg = String.Format("Start Pushingtest: Position is x={0},y={1},z={2},", this.transform.position.x, this.transform.position.y, this.transform.position.z);
+            Debug.Log(debugmsg);
+            push(new Vector3(1, 0, 0));
+        }
     }
 
     /// <summary>
@@ -121,6 +130,25 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     private bool DestinationReached()
     {
         return Vector3.Dot((destinationForSlide - transform.position), velocity) < 0.0f;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Collision detected!");
+        if (this.currentState == IceBlockState.Moving)
+        {
+            Debug.Log("Iceblock was moving, stop it");
+            this.currentState = IceBlockState.Still;
+        }
+        
+        //info: Get the type of the object we collide into
+        var bla = other.gameObject.GetComponent<IceBlockController>();
+        var isIceBlock = (bla != null);
+        if (isIceBlock)
+            Debug.Log("Collider is a IceBlock");
+        else
+            Debug.Log("Collider is not a IceBlock");
+        //Destroy(other.gameObject);
     }
 
     /// <summary>
