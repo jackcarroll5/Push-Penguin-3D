@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
     enum ItemType { Apple,Banana,Cherry}
+
 
     private List<EggControl> eggs;
     private List<PickUpItemControl> items;
@@ -17,7 +19,12 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
     private int players;
     private int currentEggs;*/
 
-    public void EggSpawn(EggControl egg)
+
+    WorldControl theWorld;
+
+    public Transform itemClone;
+    public int EggSpawn()
+
     {
         //Spawn Egg
 
@@ -33,13 +40,22 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
     public void ItemSpawn(PickUpItemControl item)
     {
-        //spawn Item
 
+
+        Vector3 positionForNewItem = theWorld.positionForItem();
+
+        Transform newbie = Instantiate(itemClone, positionForNewItem, Quaternion.identity);
+        PickUpItemControl itemControl = newbie.GetComponent<PickUpItemControl>();
+        itemControl.YouAre(ItemType.Apple, 500, 30);
+        currentItems++;
         items.Add(item);
+
 
     }
 
+
     public void PlayerSpawn(PenguinControl player)
+
     {
         //spawn Player
 
@@ -49,7 +65,9 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
     }
   
 
-    public void AddScore(int score)
+
+    /* public int AddScore(char item, int currentScore)
+
     {
 
         int scoreToAdd;
@@ -113,6 +131,7 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
 
     }
+    */
 
 
     public void SetScore(char item)
@@ -182,6 +201,7 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
     // Use this for initialization
     void Start () {
+        theWorld = FindObjectOfType<WorldControl>();
 
         eggs = new List<EggControl>();
         items = new List<PickUpItemControl>();
