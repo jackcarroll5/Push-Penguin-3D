@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,8 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     /// Returns the status of the iceblock, can only be set by functions push and collide
     /// </summary>
     public IceBlockState GetIceBlockState { get { return this.currentState; } }
+    public Vector3 GetIceBlock(ref IceBlockState callback) { callback = GetIceBlockState; return GetIceBlockPosition;  }
+    public Vector3 GetIceBlockPosition { get { return this.transform.position; } }
 
     /// <summary>
     /// definies the behavior of the icebock on a push. this function will check if the iceblock should be moving or should be destroyed
