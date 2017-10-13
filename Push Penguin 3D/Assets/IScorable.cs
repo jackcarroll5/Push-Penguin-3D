@@ -10,5 +10,5 @@ public interface IScorable {
     void SetScore(char item);
 
     //Adds the correct score to the current score
-    int AddScore(char item, int currentScore);
+    int AddScore(int scoreToAdd);
 }
