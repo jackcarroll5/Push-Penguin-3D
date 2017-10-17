@@ -10,8 +10,38 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     /// <summary>
     /// A Iceblock can have 3 states, still for just standing there, moving if pushed and destorying if the iceblock is in the animation of destroing and will be gone in the next seconds
     /// </summary>
-    public enum IceBlockState { Still, Moving, Destroying}
-    private IceBlockState currentState = IceBlockState.Still;
+    public enum IceBlockState { Still, Moving, Destroying, Gone}
+
+    Func<IceBlockController, Boolean> _callback = null;
+
+    /// <summary>
+    /// Setting a Function that will be called if the status of the iceblock change.
+    /// For more information visit https://stackoverflow.com/questions/2082615/pass-method-as-parameter-using-c-sharp / https://msdn.microsoft.com/de-de/library/bb549151(v=vs.110).aspx
+    /// </summary>
+    /// <param name="callback">Function that should be called</param>
+    public void SetCallbackForStatusChange(Func<IceBlockController, Boolean> callback)
+    {
+        _callback = callback;
+    }
+    /// <summary>
+    /// Never use this, please use the property "currentState"
+    /// </summary>
+    private IceBlockState _currentState = IceBlockState.Still;
+    /// <summary>
+    /// Return the current state of the iceblock or set it. If set, it will check for a callback and call the function to notify about a statuschange
+    /// </summary>
+    private IceBlockState currentState
+    {
+        get { return _currentState; }
+        set
+        {
+            _currentState = value;
+            if (_callback != null)
+                _callback(this);
+            else
+                Debug.LogWarning("There is no callback for Iceblock-status-change-events, please check this");
+        }
+    }
     /// <summary>
     /// Pointer to the world to call functions like getDestinationForIceBlock
     /// </summary>
