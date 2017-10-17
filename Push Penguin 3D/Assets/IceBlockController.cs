@@ -11,6 +11,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     /// A Iceblock can have 3 states, still for just standing there, moving if pushed and destorying if the iceblock is in the animation of destroing and will be gone in the next seconds
     /// </summary>
     public enum IceBlockState { Still, Moving, Destroying, Gone}
+    private Boolean testDestroing = false;
 
     Func<IceBlockController, Boolean> _callback = null;
 
@@ -64,7 +65,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     {
         Debug.Log("Push Called!");
 
-        if(world == null && worldMockUp != null)
+        if (world == null && worldMockUp != null)
             // Find info for movement from world;
             destinationForSlide = worldMockUp.getDestinationForIceblock(this, pusherPosition);
         else if (world == null)
@@ -72,10 +73,25 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
         else
             // Find info for movement from world;
             destinationForSlide = world.getDestinationForIceblock(this, pusherPosition);
-        
+
         // if destination is the same as position destroy block;
         velocity = speedOfIceBlock * (destinationForSlide - transform.position).normalized; // check for 0
-        currentState = IceBlockState.Moving;
+        if (testDestroing)
+        {
+            testDestroing = !testDestroing;
+            velocity = new Vector3(0, 0, 0);
+        }
+        String dbgmsg = String.Format("velocity({0}, {1}, {2})", velocity.x, velocity.y, velocity.z);
+        Debug.Log(dbgmsg);
+        if (velocity.x == 0f && velocity.y == 0f && velocity.z == 0f)
+        {
+            Debug.Log("Start destroing!");
+            this.DoDestroy();
+        }
+        else
+        {
+            currentState = IceBlockState.Moving;
+        }
     }
 
     /// <summary>
@@ -84,7 +100,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     void Start () {
 
 	}
-
+    
     /// <summary>
     /// Update is called once per frame
     /// </summary>
@@ -98,7 +114,16 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
                 // dont do anything
                 break;
             case IceBlockState.Destroying:
-                //todo: destroying the iceblock
+                Vector3 scale = this.transform.localScale;
+                scale.x -= Time.deltaTime;
+                scale.y -= Time.deltaTime;
+                scale.z -= Time.deltaTime;
+                this.transform.localScale = scale;
+                if(scale.x <= 0 || scale.y <= 0 || scale.z <= 0)
+                {
+                    this.currentState = IceBlockState.Gone;
+                    this.enabled = false;
+                }
                 break;
             case IceBlockState.Moving:
                 transform.position += velocity* Time.deltaTime;
@@ -151,6 +176,14 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
             Debug.Log(debugmsg);
             push(new Vector3(1, 0, 0));
         }
+        else if(Input.GetKeyDown(KeyCode.D))
+        {
+            Debug.Log("Test Block destoring");
+            testDestroing = true;
+            this.worldMockUp.CreateIceBlockAt(new Vector3(-1, 0, 0));
+            this.transform.position = new Vector3(0, 0, 0);
+            push(new Vector3(1, 0, 0));
+        }
     }
 
     /// <summary>
@@ -198,6 +231,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     public bool DoDestroy()
     {
         Debug.Log("DoDestroy!");
-        throw new NotImplementedException();
+        this.currentState = IceBlockState.Destroying;
+        return true;
     }
 }
