@@ -1,18 +1,40 @@
+﻿
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUpItemControl : MonoBehaviour, IPoints {
+public class PickUpItemControl : MonoBehaviour
+{
+
 
     private int _points = 100;
     private int minimumPoints = 50;
     private int maximumPoints = 250;
 
+
+    private float _timeAlive = 30; //Seconds
+
+
+
     public Transform Cherry, Apple, Banana;
     public Transform Popup;
 
     GameManagerControl theManager;
+
+    void Start()
+    {
+
+
+        theManager = FindObjectOfType<GameManagerControl>();
+    
+    }
+    void Update()
+    {
+        CountdownAndDestroyYourself();
+    }
+
+
     public int points
     {
         get
@@ -22,47 +44,91 @@ public class PickUpItemControl : MonoBehaviour, IPoints {
 
         set
         {
+
+            if (value <= minimumPoints)
+            {
+                _points = minimumPoints;
+            }
+            else if (value >= maximumPoints)
+            {
+                _points = maximumPoints;
+            }
+            else
+
             if(value <= minimumPoints)
             {
                 _points = minimumPoints;
             } else if (value >= maximumPoints)
             {
                 _points = maximumPoints;
-            } else
-            {
-                _points = value;
-            }
+            } 
+
         }
     }
 
 
-    // Use this for initialization
-    void Start () {
+    private float timeAlive
+    {
+        set
+        {
+            _timeAlive = value;
+        }
+        get
+        {
+            return _timeAlive;
+        }
+    }
 
-        System.Random r;
-        r = new System.Random();
+    private void CountdownAndDestroyYourself()
+    {
+        timeAlive -= Time.deltaTime;
+        if (timeAlive < 0)
+        {
+            theManager.ItemDestroyed(this);
+            Destroy(gameObject);
+
+            //Remove after test
+            print(points);
+            Transform newPopup = Instantiate(Popup, transform.position, Quaternion.identity);
+
+            PopUpScoreControl ps = newPopup.GetComponentInChildren<PopUpScoreControl>();
+
+            if (ps)
+                ps.WithScoreOf(points);
+            else print("none");
+            
+     
+            theManager.ItemDestroyed(this);
+            Destroy(gameObject);
+
+        }
+    }
 
 
-        YouAre((GameManagerControl.ItemType) r.Next(1, 3), 200, 30);
-	}
+
+
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<PenguinControl>())
+        /*if (collision.gameObject.GetComponent<PenguinControl>())
         {
-         Transform newPopup =   Instantiate(Popup, transform.position, Quaternion.identity);
+            Transform newPopup = Instantiate(Popup, transform.position, Quaternion.identity);
+
             newPopup.GetComponent<PopUpScoreControl>().WithScoreOf(_points);
             theManager.ItemDestroyed(this);
             Destroy(gameObject);
-        }
+        }*/
 
 
     }
 
-    internal void YouAre(GameManagerControl.ItemType typeOfItem, int Score, int time)
+
+
+    internal void YouAre(GameManagerControl.ItemType typeOfItem, int Score, float time)
     {
         Transform part;
       switch (typeOfItem)
+
         {
             case GameManagerControl.ItemType.Apple:
 
@@ -88,12 +154,17 @@ public class PickUpItemControl : MonoBehaviour, IPoints {
 
         part.transform.parent = transform;
 
+        //set Score
+        this.points = Score;
+
+
+        //set Countsown
+        this.timeAlive = time;
+
     }
 
+
   
 
-    // Update is called once per frame
-    void Update () {
-  
-	}
+
 }

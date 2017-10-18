@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,15 +15,13 @@ public class GameManagerControl : MonoBehaviour{
     private List<NPCControl> enemies;
     private List<PenguinControl> player;
     private int whatDestroyed;
-    /*private int currentEnemies;
-    private int currentItems;
-    private int players;
-    private int currentEggs;*/
+
+    public Transform itemClone;
 
 
     WorldControl theWorld;
 
-    public Transform itemClone;
+ 
     //public int EggSpawn()
 
     //{
@@ -38,18 +37,26 @@ public class GameManagerControl : MonoBehaviour{
         enemies.Add(enemy);
     }
 
-    public void ItemSpawn(PickUpItemControl item)
+
+    private void SpawnRandomItem()
+    {
+        ItemType newItemType = (ItemType)UnityEngine.Random.Range(0, 3);
+
+        Vector3 positionToSpawn = theWorld.randomEmptyPosition();
+        positionToSpawn = new Vector3(1, 1, 1);
+        float timeSpawned = Time.time;
+
+        ItemSpawnAt(newItemType, positionToSpawn, timeSpawned);
+
+    }
+
+    private void ItemSpawnAt(ItemType newItemType, Vector3 positionToSpawn, float timeSpawned)
     {
 
-
-        Vector3 positionForNewItem = theWorld.positionForItem();
-
-        Transform newbie = Instantiate(itemClone, positionForNewItem, Quaternion.identity);
-        PickUpItemControl itemControl = newbie.GetComponent<PickUpItemControl>();
-        itemControl.YouAre(ItemType.Apple, 500, 30);
-        items.Add(itemControl);
-
-
+        Transform newItem = Instantiate(itemClone, positionToSpawn, Quaternion.identity);
+        PickUpItemControl newItemControl = newItem.GetComponent<PickUpItemControl>();
+        newItemControl.YouAre(newItemType, 100 * (1 + (int)newItemType), 5.0f);
+        items.Add(newItemControl);
     }
 
 
@@ -202,6 +209,8 @@ public class GameManagerControl : MonoBehaviour{
     void Start () {
         theWorld = FindObjectOfType<WorldControl>();
 
+        if (theWorld) print("found the world");
+        else print("No world");
         eggs = new List<EggControl>();
         items = new List<PickUpItemControl>();
         enemies = new List<NPCControl>();
@@ -217,7 +226,7 @@ public class GameManagerControl : MonoBehaviour{
     }
 	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.C)) SpawnRandomItem();
 	}
 
     

@@ -32,7 +32,13 @@ public class WorldControl : MonoBehaviour {
         return positionOfIceBlock;
     }
 
+
+    internal Vector3 randomEmptyPosition()
+    { return new Vector3(0, 0, 0); }
+
+
     internal Vector3 positionForItem()
+
     {
         throw new NotImplementedException();
     }
