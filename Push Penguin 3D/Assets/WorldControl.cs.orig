@@ -122,10 +122,13 @@ public class WorldControl : MonoBehaviour
     }
 
 
+<<<<<<< HEAD
     internal Vector3 randomEmptyPosition()
     { return new Vector3(0, 0, 0); }
 
 
+=======
+>>>>>>> David/master
     internal Vector3 positionForItem()
 
     {

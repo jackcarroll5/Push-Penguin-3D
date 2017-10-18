@@ -74,43 +74,30 @@ public class GameManagerControl : MonoBehaviour
 
 
     /* public int AddScore(char item, int currentScore)
-
     {
-
         int scoreToAdd;
-
         switch(whatDestroyed)
         {
             case '1':
                 {
                     scoreToAdd = 100;
-
                     break;
                 }
-
             case '2':
                 {
                     scoreToAdd = 250;
-
                     break;
                 }
-
             default:
                 {
                     scoreToAdd = 0;
-
                     break;
                 }
         }
-
         score += scoreToAdd;
-
         /*List<ItemType> myList = new List<ItemType>();
-
-
         foreach (ItemType i in myList)
             if (i== currentlyActiveType) 
-
         switch(item)
         {
             case 'A':
@@ -132,7 +119,6 @@ public class GameManagerControl : MonoBehaviour
                 {
                     break;
                 }
-
         }
         */
 
@@ -226,10 +212,18 @@ public class GameManagerControl : MonoBehaviour
     {
 
     }
-    // Update is called once per frame
-    void Update(){
+<<<<<<< HEAD
+	// Update is called once per frame
+	void Update () {
         if (Input.GetKeyDown(KeyCode.C)) SpawnRandomItem();
+	}
+=======
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 
+>>>>>>> David/master
 
 }
