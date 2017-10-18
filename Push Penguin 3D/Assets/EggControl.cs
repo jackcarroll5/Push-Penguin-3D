@@ -15,16 +15,12 @@ public class EggControl : MonoBehaviour
         NotInIce = true;
         IceDestroyed = false;
         TimeCount = Time.time + Timer;
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.A))
-            IceDestroyed = true;
-
         SpawnEnemy();
     }
 
