@@ -5,30 +5,39 @@ using UnityEngine.UI;
 
 public class PopUpScoreControl : MonoBehaviour, IPopUp {
     public Animator myAnimation;
-    int myScore;
+    int myScore = 5;
 
-    Text myText;
+    private Text myText;
     float time;
 
     public void WithScoreOf(int score)
     {
         myScore = score;
-      
+
+        time = Time.time;
+        myText = GetComponentInChildren<Text>();
+        myText.text = myScore.ToString();
+
+        myAnimation = GetComponentInChildren<Animator>();
+
+        print(myScore);
+
+
     }
 
     // Use this for initialization
     void Start ()
     {
-        time = Time.time;
+        /*time = Time.time;
         myText = GetComponentInChildren<Text>();
-        myText.text = "tree fiddy";
+        myText.text = myScore.ToString();
 
         myAnimation = GetComponentInChildren<Animator>();
       
 
        // AnimatorClipInfo[] clipInfo = myAnimation.GetCurrentAnimatorClipInfo(0);
        // Destroy(gameObject, clipInfo[0].clip.length);
-
+       */
 
     }
 	

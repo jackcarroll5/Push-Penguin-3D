@@ -13,7 +13,7 @@ public class PickUpItemControl : MonoBehaviour
     private int maximumPoints = 250;
 
 
-    private float _timeAlive = 30; //Secounds
+    private float _timeAlive = 30; //Seconds
 
 
 
@@ -81,15 +81,26 @@ public class PickUpItemControl : MonoBehaviour
 
     private void CountdownAndDestroyYourself()
     {
-        if (timeAlive <= 0)
+        timeAlive -= Time.deltaTime;
+        if (timeAlive < 0)
         {
-            timeAlive -= Time.deltaTime;
-        }
-        else
-        {
-
             theManager.ItemDestroyed(this);
             Destroy(gameObject);
+
+            //Remove after test
+            print(points);
+            Transform newPopup = Instantiate(Popup, transform.position, Quaternion.identity);
+
+            PopUpScoreControl ps = newPopup.GetComponentInChildren<PopUpScoreControl>();
+
+            if (ps)
+                ps.WithScoreOf(points);
+            else print("none");
+            
+     
+            theManager.ItemDestroyed(this);
+            Destroy(gameObject);
+
         }
     }
 
@@ -99,21 +110,21 @@ public class PickUpItemControl : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<PenguinControl>())
+        /*if (collision.gameObject.GetComponent<PenguinControl>())
         {
             Transform newPopup = Instantiate(Popup, transform.position, Quaternion.identity);
 
             newPopup.GetComponent<PopUpScoreControl>().WithScoreOf(_points);
             theManager.ItemDestroyed(this);
             Destroy(gameObject);
-        }
+        }*/
 
 
     }
 
 
 
-    internal void YouAre(GameManagerControl.ItemType typeOfItem, int Score, int time)
+    internal void YouAre(GameManagerControl.ItemType typeOfItem, int Score, float time)
     {
         Transform part;
       switch (typeOfItem)
@@ -145,6 +156,7 @@ public class PickUpItemControl : MonoBehaviour
 
         //set Score
         this.points = Score;
+
 
         //set Countsown
         this.timeAlive = time;

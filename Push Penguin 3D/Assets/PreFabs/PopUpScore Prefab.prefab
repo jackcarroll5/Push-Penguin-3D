@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 223038799194555758}
   - component: {fileID: 114617198024391274}
   - component: {fileID: 114774854229742136}
+  - component: {fileID: 114250516687289006}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -95,6 +96,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114250516687289006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1170125877889130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb4961c7dae00741bb79d06e4467d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAnimation: {fileID: 0}
 --- !u!114 &114456585888189700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,7 +225,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1703345502932230}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -6.8877707}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224920176585759282}
@@ -221,7 +234,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 569, y: 262.5}
+  m_AnchoredPosition: {x: 1.4384031, y: -1.4448843}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224518552638014976

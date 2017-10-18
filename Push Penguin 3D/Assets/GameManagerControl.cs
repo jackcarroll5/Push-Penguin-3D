@@ -44,17 +44,18 @@ public class GameManagerControl : MonoBehaviour{
 
         Vector3 positionToSpawn = theWorld.randomEmptyPosition();
         positionToSpawn = new Vector3(1, 1, 1);
+        float timeSpawned = Time.time;
 
-        ItemSpawnAt(newItemType, positionToSpawn);
+        ItemSpawnAt(newItemType, positionToSpawn, timeSpawned);
 
     }
 
-    private void ItemSpawnAt(ItemType newItemType, Vector3 positionToSpawn)
+    private void ItemSpawnAt(ItemType newItemType, Vector3 positionToSpawn, float timeSpawned)
     {
 
         Transform newItem = Instantiate(itemClone, positionToSpawn, Quaternion.identity);
         PickUpItemControl newItemControl = newItem.GetComponent<PickUpItemControl>();
-        newItemControl.YouAre(newItemType, 100 * (1 + (int)newItemType), 10);
+        newItemControl.YouAre(newItemType, 100 * (1 + (int)newItemType), 5.0f);
         items.Add(newItemControl);
     }
 
