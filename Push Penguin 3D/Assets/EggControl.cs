@@ -46,18 +46,16 @@ public class EggControl : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-
-        if (other.tag == "Ice")
+        if (other.tag == "IceBlock")
             NotInIce = false;
-
     }
 
     void OnTriggerExit(Collider other)
     {
 
-        if (other.tag == "Ice")
+        if (other.tag == "IceBlock")
             NotInIce = true;
         TimeCount = 0;
 
