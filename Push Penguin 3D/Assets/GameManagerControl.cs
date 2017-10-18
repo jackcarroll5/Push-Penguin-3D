@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+<<<<<<< HEAD
+public class GameManagerControl : MonoBehaviour,IScorable,ISpawnable{
+    enum ItemType { Apple,Banana,Cherry}
+=======
+>>>>>>> Rob's_Folder/master
 
 
 public class GameManagerControl : MonoBehaviour{
@@ -68,6 +73,9 @@ public class GameManagerControl : MonoBehaviour{
     /* public int AddScore(char item, int currentScore)
 
     {
+<<<<<<< HEAD
+       /* List<ItemType> myList = new List<ItemType>();
+=======
 
         int scoreToAdd;
 
@@ -99,6 +107,7 @@ public class GameManagerControl : MonoBehaviour{
 
         /*List<ItemType> myList = new List<ItemType>();
 
+>>>>>>> Rob's_Folder/master
 
         foreach (ItemType i in myList)
             if (i== currentlyActiveType) 
@@ -127,11 +136,16 @@ public class GameManagerControl : MonoBehaviour{
 
         }
         */
+<<<<<<< HEAD
+        return currentScore;
+    }
+=======
 
 
   
 
 
+>>>>>>> Rob's_Folder/master
 
     public void SetScore(char item)
     {
