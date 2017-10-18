@@ -19,6 +19,8 @@ public class WorldControl : MonoBehaviour
     PenguinControl control;
     IceBlockController iceBlock;
     // Use this for initialization 
+        for (int i = 0; i < 5; i++)
+            CreateIceBlockAt(new Vector3(i, 0, 2 * i));
 
     void Start()
     {
@@ -143,18 +145,17 @@ public class WorldControl : MonoBehaviour
 
     private Vector3 SnapTo(Vector3 v, float height)
     {
-
         Vector3 snap1 = SnapTo(v);
-
         return new Vector3(snap1.x, height, snap1.z);
     }
 
 
 
+
     void CreateIceBlockAt(Vector3 v)
     {
+        Transform newBie = Instantiate(IceBlockPreFab,SnapTo(v,v.y),Quaternion.identity);
 
-        Transform newBie = Instantiate(IceBlockPreFab, SnapTo(v, v.y), Quaternion.identity);
 
 
         IceBlockController HiNewbie = newBie.gameObject.GetComponent<IceBlockController>();
