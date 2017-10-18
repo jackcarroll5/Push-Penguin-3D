@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ScoreControl : MonoBehaviour, iScore {
 
-    int currentScore;
     GameObject Cube1;
     private int Increment = 0, Validator = 1;
     TextMesh tree1;
@@ -20,6 +19,7 @@ public class ScoreControl : MonoBehaviour, iScore {
 
     // Use this for initialization
     void Start () {
+
         Cube1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         tree1 = GetComponent<TextMesh>();
         tree1.transform.position = new Vector3(5, 5, 0);
@@ -53,6 +53,14 @@ public class ScoreControl : MonoBehaviour, iScore {
         {
             print("No");
             print(Increment);
+
         }
+        
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+
     }
 }
