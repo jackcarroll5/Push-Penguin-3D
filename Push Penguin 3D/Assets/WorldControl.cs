@@ -14,82 +14,35 @@ public class WorldControl : MonoBehaviour
 
     private int depthOfWorld = 20;
 
-    Vector3 playerPosition, IceBlockPosition;
+   // Vector3 playerPosition, IceBlockPosition;
 
     PenguinControl control;
     IceBlockController iceBlock;
-    // Use this for initialization 
-        for (int i = 0; i < 5; i++)
-            CreateIceBlockAt(new Vector3(i, 0, 2 * i));
+
+
 
     void Start()
     {
-        control = GameObject.Find("Player").GetComponent<PenguinControl>();
-        iceBlock = GameObject.Find("Ice Block").GetComponent<IceBlockController>();
+        //control = GameObject.Find("Player").GetComponent<PenguinControl>();
+        //iceBlock = GameObject.Find("Ice Block").GetComponent<IceBlockController>();
 
-        //for (int i = 0; i < 5; i++) 
+        //
 
-        //CreateIceBlockAt(new Vector3(i, 0, 2 * i)); 
+        for (int i = 0; i < 5; i++)
 
-
-        //border(); 
-
-
-        for (int x = 0; x < widthOfWorld; x++)
-
-        {
-
-            for (int z = 0; z < depthOfWorld; z++)
-
-            {
-
-                CreateIceBlockAt(new Vector3(x, -1, z));
-
-                if (isOntheEdge(x, z)) createWallAt(new Vector3(x, 0, z));
+        CreateIceBlockAt(new Vector3(i, 0, 2 * i)); 
 
 
-                //for (int i = 0; i < widthOfWorld; i++) //Forms the rock borders in the edges of the arena based on the square design of the arena 
-
-                //{ 
-
-                //    CreateIceBlockAt(new Vector3(i, 0, 0)); 
-
-                //    CreateIceBlockAt(new Vector3(i, 0, depthOfWorld - 1)); 
-
-                //} 
-
-
-                //for (int i = 1; i < depthOfWorld - 1; i++) 
-
-                //{ 
-
-                //    CreateIceBlockAt(new Vector3(0, 0, i)); 
-
-                //    CreateIceBlockAt(new Vector3(widthOfWorld - 1, 0, i)); 
-
-                //} 
+        border(); 
 
 
 
-                //iceblock.transform.position += new Vector3(0, 0.0011f, 0); 
-
-
-                //iceblock.name = "Ice Block"; 
-
-                //// create floor 
-
-                //CreateIceBlockAt(new Vector3(x, heightOfWorldFloor, z)); 
-
-            }
-
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerPosition = control.getPlayerPosition();
-        IceBlockPosition = iceBlock.GetIceBlockPosition();
+
 
     }
 
@@ -98,6 +51,7 @@ public class WorldControl : MonoBehaviour
     {
 
         Transform newBie = Instantiate(WallPrefab, SnapTo(v), Quaternion.identity);
+        newBie.parent = transform;
     }
 
 
@@ -115,7 +69,7 @@ public class WorldControl : MonoBehaviour
 
         Vector3 direction = positionOfIceBlock - SnapTo(pusherPosition);
 
-        if (!((direction.magnitude < 0.1f) || (direction.magnitude > 1.1f)))
+        if (!((direction.magnitude < 0.9f) || (direction.magnitude > 1.1f)))
 
             return SnapTo(positionOfIceBlock + 5.0f * direction);
 
@@ -155,7 +109,7 @@ public class WorldControl : MonoBehaviour
     void CreateIceBlockAt(Vector3 v)
     {
         Transform newBie = Instantiate(IceBlockPreFab,SnapTo(v,v.y),Quaternion.identity);
-
+        newBie.parent = transform;
 
 
         IceBlockController HiNewbie = newBie.gameObject.GetComponent<IceBlockController>();
@@ -187,26 +141,43 @@ public class WorldControl : MonoBehaviour
 
     private void border()
     {
-
-        for (int i = 0; i < widthOfWorld; i++)
+        for (int x = 0; x < widthOfWorld; x++)
 
         {
 
-            CreateIceBlockAt(new Vector3(i, 0, 0));
+            for (int z = 0; z < depthOfWorld; z++)
 
-            CreateIceBlockAt(new Vector3(i, 0, depthOfWorld - 1));
+            {
+
+                CreateIceBlockAt(new Vector3(x, -1, z));
+
+                if (isOntheEdge(x, z)) createWallAt(new Vector3(x, 0, z));
+
+
+            }
 
         }
 
 
-        for (int i = 1; i < depthOfWorld - 1; i++)
+        //for (int i = 0; i < widthOfWorld; i++)
 
-        {
+        //{
 
-            CreateIceBlockAt(new Vector3(0, 0, i));
+        //    CreateIceBlockAt(new Vector3(i, 0, 0));
 
-            CreateIceBlockAt(new Vector3(widthOfWorld - 1, 0, i));
+        //    CreateIceBlockAt(new Vector3(i, 0, depthOfWorld - 1));
 
-        }
+        //}
+
+
+        //for (int i = 1; i < depthOfWorld - 1; i++)
+
+        //{
+
+        //    CreateIceBlockAt(new Vector3(0, 0, i));
+
+        //    CreateIceBlockAt(new Vector3(widthOfWorld - 1, 0, i));
+
+        //}
     }
 }

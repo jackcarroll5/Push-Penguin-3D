@@ -12,13 +12,7 @@ public class PenguinControl : Movement {
     private float currentSpeed = 10.0f;
     private float turningSpeed = 360.0f;
 
-    public Vector3 getPlayerPosition() {
-        return playerPosition;
-	}
-    public void setPlayerPosition(Vector3 setPos) 
-    {
-        this.transform.position = playerPosition;
-    }
+
 
 	// Use this for initialization
 	void Start () {
@@ -43,11 +37,31 @@ public class PenguinControl : Movement {
         playerPosition = this.transform.position;
 
         if (shouldStrafeRight()) StrafeRight();
-        playerPosition = this.transform.position;
 
+        if (shouldPush()) push();
         //Debug.Log(playerPosition.ToString());
 
     }
+
+    private void push()
+    {
+        Ray r = new Ray(transform.position, transform.forward);
+        RaycastHit info = new RaycastHit();
+
+        if (Physics.Raycast(r,out info))
+        {
+            IceBlockController iceBlock = info.collider.GetComponent<IceBlockController>();
+
+            if (iceBlock) iceBlock.push(this.transform.position);
+
+        }
+    }
+
+    private bool shouldPush()
+    {
+        return Input.GetKeyDown(KeyCode.Space);
+    }
+
     private bool shouldStrafeRight()
     {
         return Input.GetKey(KeyCode.E);

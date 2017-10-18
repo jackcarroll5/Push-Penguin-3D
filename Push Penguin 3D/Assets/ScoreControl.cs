@@ -8,7 +8,7 @@ public class ScoreControl : MonoBehaviour, iScore {
     GameObject Cube1;
     private int Increment = 0, Validator = 1;
     TextMesh tree1;
-
+    private int currentScore;
 
 
     public void AddScore(int scoreIncrement)
@@ -60,7 +60,5 @@ public class ScoreControl : MonoBehaviour, iScore {
     }
 
     // Update is called once per frame
-    void Update () {
 
-    }
 }

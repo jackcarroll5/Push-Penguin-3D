@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 6c4fda971ea21eb4dbfc916e26bcb271
-timeCreated: 1507883461
+guid: 696cd2dd02d611846bda34879f7d2b18
+timeCreated: 1508342389
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
@@ -47,7 +47,7 @@ ModelImporter:
     globalScale: 0.005
     meshCompression: 0
     addColliders: 0
-    importVisibility: 0
+    importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
@@ -55,7 +55,7 @@ ModelImporter:
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
-    keepQuads: 0
+    keepQuads: 1
     weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001

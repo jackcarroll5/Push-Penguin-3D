@@ -68,13 +68,14 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     {
         Debug.Log("Push Called!");
 
-        if (world == null && worldMockUp != null)
-            // Find info for movement from world;
-            destinationForSlide = worldMockUp.getDestinationForIceblock(this, pusherPosition);
-        else if (world == null)
-            throw new Exception("You must call \"ThisIsMe\" after creating this object or the movement won't work!");
-        else
-            // Find info for movement from world;
+        //if (world == null && worldMockUp != null)
+        //    // Find info for movement from world;
+        //    destinationForSlide = worldMockUp.getDestinationForIceblock(this, pusherPosition);
+        //else if (world == null)
+        //    throw new Exception("You must call \"ThisIsMe\" after creating this object or the movement won't work!");
+        //else
+        //    // Find info for movement from world;
+
             destinationForSlide = world.getDestinationForIceblock(this, pusherPosition);
 
         // if destination is the same as position destroy block;
@@ -109,7 +110,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     /// </summary>
     void Update ()
     {
-        CheckForTest();
+      //  CheckForTest();
 
         switch (currentState)
         {
