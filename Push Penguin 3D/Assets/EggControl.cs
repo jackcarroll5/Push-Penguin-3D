@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class EggControl : MonoBehaviour
     public float TimeCount, Timer = 3;
     public GameObject Enemy;
     Vector3 CurrentPosition;
+    GameManagerControl theManager;
     // Variables Declared
     void Start()
     {
@@ -55,5 +57,11 @@ public class EggControl : MonoBehaviour
             NotInIce = true;
         TimeCount = 0;
 
+    }
+
+
+    internal void IAm(GameManagerControl gameManagerControl)
+    {
+        theManager = gameManagerControl;
     }
 }
