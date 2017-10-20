@@ -126,13 +126,24 @@ public class PenguinControl : Movement {
 
     public void OnTriggerEnter(Collider other)
     {
-       // Debug.Log("Trigger Activated");
-        //currentSpeed = 0;
+        Debug.Log("Working...");
+        MoveBackward();
     }
 
     public void OnTriggerExit(Collider other)
     {
-      //  Debug.Log("Trigger De-activated");
-      //  currentSpeed = 10.0f;
+       Debug.Log("Trigger De-activated");
+       currentSpeed = 10.0f;
+      
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<IceBlockController>())
+        {
+            Debug.Log("Collision with Ice Block Dave");
+        }
+        else
+            Debug.Log("not a collision we wanted");
     }
 }
