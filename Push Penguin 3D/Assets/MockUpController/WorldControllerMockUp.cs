@@ -21,7 +21,7 @@ public class WorldControllerMockUp : MonoBehaviour {
     }
 
 
-    void CreateIceBlockAt(Vector3 v)
+    public void CreateIceBlockAt(Vector3 v)
     {
         Transform newBie = Instantiate(IceBlockPreFab, SnapTo(v), Quaternion.identity);
         IceBlockController HiNewbie = newBie.gameObject.GetComponent<IceBlockController>();

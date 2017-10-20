@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class PickUpItemControl : MonoBehaviour, IPoints {
     private int _points = 100;
     private int minimumPoints = 50;
     private int maximumPoints = 250;
+
+    public Transform Cherry, Apple, Banana;
     public Transform Popup;
 
     GameManagerControl theManager;
@@ -35,7 +38,12 @@ public class PickUpItemControl : MonoBehaviour, IPoints {
 
     // Use this for initialization
     void Start () {
-		
+
+        System.Random r;
+        r = new System.Random();
+
+
+        YouAre((GameManagerControl.ItemType) r.Next(1, 3), 200, 30);
 	}
 
     private void OnCollisionEnter(Collision collision)
@@ -50,6 +58,40 @@ public class PickUpItemControl : MonoBehaviour, IPoints {
 
 
     }
+
+    internal void YouAre(GameManagerControl.ItemType typeOfItem, int Score, int time)
+    {
+        Transform part;
+      switch (typeOfItem)
+        {
+            case GameManagerControl.ItemType.Apple:
+
+                part = Instantiate(Apple, transform.position, Quaternion.identity);
+
+
+                break;
+
+            case GameManagerControl.ItemType.Cherry:
+
+                part = Instantiate(Cherry, transform.position, Quaternion.identity);
+
+
+                break;
+
+            default:
+
+                part = Instantiate(Banana, transform.position, Quaternion.identity);
+                break;
+
+
+        }
+
+        part.transform.parent = transform;
+
+    }
+
+  
+
     // Update is called once per frame
     void Update () {
   

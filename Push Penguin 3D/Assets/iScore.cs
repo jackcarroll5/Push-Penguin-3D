@@ -4,13 +4,8 @@ using System.Linq;
 using System.Text;
 
 
-    interface IPopUp
+    interface iScore
     {
-
-    void WithScoreOf(int score);
-
-
+        void AddScore(int score);
     }
-
-    
 
