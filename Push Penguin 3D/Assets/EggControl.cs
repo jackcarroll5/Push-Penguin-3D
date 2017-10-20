@@ -15,16 +15,12 @@ public class EggControl : MonoBehaviour
         NotInIce = true;
         IceDestroyed = false;
         TimeCount = Time.time + Timer;
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.A))
-            IceDestroyed = true;
-
         SpawnEnemy();
     }
 
@@ -46,18 +42,16 @@ public class EggControl : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-
-        if (other.tag == "Ice")
+        if (other.tag == "IceBlock")
             NotInIce = false;
-
     }
 
     void OnTriggerExit(Collider other)
     {
 
-        if (other.tag == "Ice")
+        if (other.tag == "IceBlock")
             NotInIce = true;
         TimeCount = 0;
 

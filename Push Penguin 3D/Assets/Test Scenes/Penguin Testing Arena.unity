@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -209,9 +209,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31e24bfcb603324f82c30aab7c995f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IceBlockPreFab: {fileID: 4145360599388096, guid: 255d5f51ab1aedd4c837ced461d964b5,
+  IceBlockPreFab: {fileID: 4193283141135696, guid: 67012d36547442841b75fe29a38a5a2c,
     type: 2}
-  WallPrefab: {fileID: 4871014725579364, guid: e477ea25bdc75ec40ac2c079ed5489b8, type: 2}
+  WallPrefab: {fileID: 4871014725579364, guid: 42cd5dfb134ce5c44b0f2777e833ea83, type: 2}
 --- !u!1 &1238110263
 GameObject:
   m_ObjectHideFlags: 0

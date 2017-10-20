@@ -5,54 +5,51 @@ using UnityEngine.UI;
 
 public class PopUpScoreControl : MonoBehaviour, IPopUp {
     public Animator myAnimation;
-    int myScore;
+    int myScore = 5;
 
-    Text myText;
-
+    private Text myText;
+    float time;
 
     public void WithScoreOf(int score)
     {
         myScore = score;
-      
+
+        time = Time.time;
+        myText = GetComponentInChildren<Text>();
+        myText.text = myScore.ToString();
+
+        myAnimation = GetComponentInChildren<Animator>();
+
+        print(myScore);
+
+
     }
-
-    //public void example()
-    //{
-
-    //}
 
     // Use this for initialization
     void Start ()
     {
+        /*time = Time.time;
         myText = GetComponentInChildren<Text>();
-        myText.text = "" + RandomNumGen(1, 255);
+        myText.text = myScore.ToString();
 
         myAnimation = GetComponentInChildren<Animator>();
       
 
        // AnimatorClipInfo[] clipInfo = myAnimation.GetCurrentAnimatorClipInfo(0);
        // Destroy(gameObject, clipInfo[0].clip.length);
-
+       */
 
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        //if(myAnimation.)
+        if (Time.time - time >= 1.01f)
         {
+            Destroy(myText);
+            Destroy(myAnimation);
 
         }
-    }
-    List<int> usedValues = new List<int>();
-    private int RandomNumGen(int min, int max)
-    {
-        int val = Random.Range(min, max);
-        while(usedValues.Contains(val))
-        {
-            val = Random.Range(min, max);
-        }
-        return val;
     }
 }
 //https://www.youtube.com/watch?v=fbUOG7f3jq8

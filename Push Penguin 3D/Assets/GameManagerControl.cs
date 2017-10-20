@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 
-public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
+public class GameManagerControl : MonoBehaviour
+{
 
-    enum ItemType { Apple,Banana,Cherry}
+    public enum ItemType { Apple, Banana, Cherry }
 
 
     private List<EggControl> eggs;
@@ -14,22 +16,20 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
     private List<NPCControl> enemies;
     private List<PenguinControl> player;
     private int whatDestroyed;
-    /*private int currentEnemies;
-    private int currentItems;
-    private int players;
-    private int currentEggs;*/
+
+    public Transform itemClone;
 
 
     WorldControl theWorld;
 
-    public Transform itemClone;
-    public int EggSpawn()
+ 
+    //public int EggSpawn()
 
-    {
-        //Spawn Egg
+    //{
+    //    //Spawn Egg
 
-        eggs.Add(egg);
-    }
+    //    eggs.Add(egg);
+    //}
 
     public void EnemySpawn(NPCControl enemy)
     {
@@ -38,19 +38,26 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
         enemies.Add(enemy);
     }
 
-    public void ItemSpawn(PickUpItemControl item)
+
+    private void SpawnRandomItem()
+    {
+        ItemType newItemType = (ItemType)UnityEngine.Random.Range(0, 3);
+
+        Vector3 positionToSpawn = theWorld.randomEmptyPosition();
+        positionToSpawn = new Vector3(1, 1, 1);
+        float timeSpawned = Time.time;
+
+        ItemSpawnAt(newItemType, positionToSpawn, timeSpawned);
+
+    }
+
+    private void ItemSpawnAt(ItemType newItemType, Vector3 positionToSpawn, float timeSpawned)
     {
 
-
-        Vector3 positionForNewItem = theWorld.positionForItem();
-
-        Transform newbie = Instantiate(itemClone, positionForNewItem, Quaternion.identity);
-        PickUpItemControl itemControl = newbie.GetComponent<PickUpItemControl>();
-        itemControl.YouAre(ItemType.Apple, 500, 30);
-        currentItems++;
-        items.Add(item);
-
-
+        Transform newItem = Instantiate(itemClone, positionToSpawn, Quaternion.identity);
+        PickUpItemControl newItemControl = newItem.GetComponent<PickUpItemControl>();
+        newItemControl.YouAre(newItemType, 100 * (1 + (int)newItemType), 5.0f);
+        items.Add(newItemControl);
     }
 
 
@@ -63,81 +70,15 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
 
     }
-  
 
 
-    /* public int AddScore(char item, int currentScore)
 
-    {
-
-        int scoreToAdd;
-
-        switch(whatDestroyed)
-        {
-            case '1':
-                {
-                    scoreToAdd = 100;
-
-                    break;
-                }
-
-            case '2':
-                {
-                    scoreToAdd = 250;
-
-                    break;
-                }
-
-            default:
-                {
-                    scoreToAdd = 0;
-
-                    break;
-                }
-        }
-
-        score += scoreToAdd;
-
-        /*List<ItemType> myList = new List<ItemType>();
-
-
-        foreach (ItemType i in myList)
-            if (i== currentlyActiveType) 
-
-        switch(item)
-        {
-            case 'A':
-                {
-                    currentScore += apple.getScore();
-                    break;
-                }
-            case 'B':
-                {
-                    currentScore += banana.getScore();
-                    break;
-                }
-            case 'C':
-                {
-                    currentScore += cherry.getScore();
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-
-        }
-        */
-
-
-    }
-    */
 
 
     public void SetScore(char item)
     {
-        
-        
+
+
 
         /*switch (item)
         {
@@ -164,7 +105,7 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
         }*/
     }
 
-    public void ItemDestroyed(PickUpItemControl  item)
+    public void ItemDestroyed(PickUpItemControl item)
     {
 
         items.Remove(item);
@@ -200,9 +141,12 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         theWorld = FindObjectOfType<WorldControl>();
 
+        if (theWorld) print("found the world");
+        else print("No world");
         eggs = new List<EggControl>();
         items = new List<PickUpItemControl>();
         enemies = new List<NPCControl>();
@@ -210,16 +154,16 @@ public class GameManagerControl : MonoBehaviour, iScore/*, ISpawnable*/{
 
 
     }
-	
+
 
     public void startOfWorld()
     {
 
     }
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Update is called once per frame
+    void Update(){
+        if (Input.GetKeyDown(KeyCode.C)) SpawnRandomItem();
+    }
 
-    
+
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,39 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     /// <summary>
     /// A Iceblock can have 3 states, still for just standing there, moving if pushed and destorying if the iceblock is in the animation of destroing and will be gone in the next seconds
     /// </summary>
-    public enum IceBlockState { Still, Moving, Destroying}
-    private IceBlockState currentState = IceBlockState.Still;
+    public enum IceBlockState { Still, Moving, Destroying, Gone}
+    private Boolean testDestroing = false;
+
+    Func<IceBlockController, Boolean> _callback = null;
+
+    /// <summary>
+    /// Setting a Function that will be called if the status of the iceblock change.
+    /// For more information visit https://stackoverflow.com/questions/2082615/pass-method-as-parameter-using-c-sharp / https://msdn.microsoft.com/de-de/library/bb549151(v=vs.110).aspx
+    /// </summary>
+    /// <param name="callback">Function that should be called</param>
+    public void SetCallbackForStatusChange(Func<IceBlockController, Boolean> callback)
+    {
+        _callback = callback;
+    }
+    /// <summary>
+    /// Never use this, please use the property "currentState"
+    /// </summary>
+    private IceBlockState _currentState = IceBlockState.Still;
+    /// <summary>
+    /// Return the current state of the iceblock or set it. If set, it will check for a callback and call the function to notify about a statuschange
+    /// </summary>
+    private IceBlockState currentState
+    {
+        get { return _currentState; }
+        set
+        {
+            _currentState = value;
+            if (_callback != null)
+                _callback(this);
+            else
+                Debug.LogWarning("There is no callback for Iceblock-status-change-events, please check this");
+        }
+    }
     /// <summary>
     /// Pointer to the world to call functions like getDestinationForIceBlock
     /// </summary>
@@ -25,6 +57,8 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     /// Returns the status of the iceblock, can only be set by functions push and collide
     /// </summary>
     public IceBlockState GetIceBlockState { get { return this.currentState; } }
+    public Vector3 GetIceBlock(ref IceBlockState callback) { callback = GetIceBlockState; return GetIceBlockPosition;  }
+    public Vector3 GetIceBlockPosition { get { return this.transform.position; } }
 
     /// <summary>
     /// definies the behavior of the icebock on a push. this function will check if the iceblock should be moving or should be destroyed
@@ -34,18 +68,34 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     {
         Debug.Log("Push Called!");
 
-        if(world == null && worldMockUp != null)
-            // Find info for movement from world;
-            destinationForSlide = worldMockUp.getDestinationForIceblock(this, pusherPosition);
-        else if (world == null)
-            throw new Exception("You must call \"ThisIsMe\" after creating this object or the movement won't work!");
-        else
-            // Find info for movement from world;
+        //if (world == null && worldMockUp != null)
+        //    // Find info for movement from world;
+        //    destinationForSlide = worldMockUp.getDestinationForIceblock(this, pusherPosition);
+        //else if (world == null)
+        //    throw new Exception("You must call \"ThisIsMe\" after creating this object or the movement won't work!");
+        //else
+        //    // Find info for movement from world;
+
             destinationForSlide = world.getDestinationForIceblock(this, pusherPosition);
-        
+
         // if destination is the same as position destroy block;
         velocity = speedOfIceBlock * (destinationForSlide - transform.position).normalized; // check for 0
-        currentState = IceBlockState.Moving;
+        if (testDestroing)
+        {
+            testDestroing = !testDestroing;
+            velocity = new Vector3(0, 0, 0);
+        }
+        String dbgmsg = String.Format("velocity({0}, {1}, {2})", velocity.x, velocity.y, velocity.z);
+        Debug.Log(dbgmsg);
+        if (velocity.x == 0f && velocity.y == 0f && velocity.z == 0f)
+        {
+            Debug.Log("Start destroing!");
+            this.DoDestroy();
+        }
+        else
+        {
+            currentState = IceBlockState.Moving;
+        }
     }
 
     /// <summary>
@@ -54,13 +104,13 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     void Start () {
 
 	}
-
+    
     /// <summary>
     /// Update is called once per frame
     /// </summary>
     void Update ()
     {
-        CheckForTest();
+      //  CheckForTest();
 
         switch (currentState)
         {
@@ -68,7 +118,16 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
                 // dont do anything
                 break;
             case IceBlockState.Destroying:
-                //todo: destroying the iceblock
+                Vector3 scale = this.transform.localScale;
+                scale.x -= Time.deltaTime;
+                scale.y -= Time.deltaTime;
+                scale.z -= Time.deltaTime;
+                this.transform.localScale = scale;
+                if(scale.x <= 0 || scale.y <= 0 || scale.z <= 0)
+                {
+                    this.currentState = IceBlockState.Gone;
+                    this.enabled = false;
+                }
                 break;
             case IceBlockState.Moving:
                 transform.position += velocity* Time.deltaTime;
@@ -121,6 +180,14 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
             Debug.Log(debugmsg);
             push(new Vector3(1, 0, 0));
         }
+        else if(Input.GetKeyDown(KeyCode.D))
+        {
+            Debug.Log("Test Block destoring");
+            testDestroing = true;
+            this.worldMockUp.CreateIceBlockAt(new Vector3(-1, 0, 0));
+            this.transform.position = new Vector3(0, 0, 0);
+            push(new Vector3(1, 0, 0));
+        }
     }
 
     /// <summary>
@@ -168,6 +235,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
     public bool DoDestroy()
     {
         Debug.Log("DoDestroy!");
-        throw new NotImplementedException();
+        this.currentState = IceBlockState.Destroying;
+        return true;
     }
 }

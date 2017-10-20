@@ -12,57 +12,54 @@ public class PenguinControl : Movement {
     private float currentSpeed = 10.0f;
     private float turningSpeed = 360.0f;
 
-    public Vector3 getPlayerPosition() {
-        return playerPosition;
-	}
-    public void setPosition(Vector3 setPos) 
-    {
-        this.transform.position = playerPosition;
-    }
+
 
 	// Use this for initialization
 	void Start () {
-        transform.GetChild(0);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
         if (shouldMoveForward()) MoveForward();
+        playerPosition = this.transform.position;
 
         if (shouldTurnLeft()) TurnLeft();
+        playerPosition = this.transform.position;
 
         if (shouldMoveBackward()) MoveBackward();
+        playerPosition = this.transform.position;
 
         if (shouldTurnRight()) TurnRight();
+        playerPosition = this.transform.position;
 
         if (shouldStrafeLeft()) StrafeLeft();
+        playerPosition = this.transform.position;
 
         if (shouldStrafeRight()) StrafeRight();
 
+        if (shouldPush()) push();
+        //Debug.Log(playerPosition.ToString());
 
+    }
 
+    private void push()
+    {
+        Ray r = new Ray(transform.position, transform.forward);
+        RaycastHit info = new RaycastHit();
 
-      /* playerPosition = this.getPlayerPosition();
-
-        Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-		if (direction.x != 0)
+        if (Physics.Raycast(r,out info))
         {
-            MoveX(gameObject, direction.x);
+            IceBlockController iceBlock = info.collider.GetComponent<IceBlockController>();
+
+            if (iceBlock) iceBlock.push(this.transform.position);
+
         }
-        if (direction.z != 0)
-        {
-            MoveZ(gameObject, direction.z);
-        }*/
+    }
 
-        //mouse movement
-        //
-
-        //if()
-
-        
-            
-
+    private bool shouldPush()
+    {
+        return Input.GetKeyDown(KeyCode.Space);
     }
 
     private bool shouldStrafeRight()
@@ -123,5 +120,17 @@ public class PenguinControl : Movement {
     private bool shouldMoveForward()
     {
         return Input.GetKey(KeyCode.W);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Trigger Activated");
+        //currentSpeed = 0;
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        Debug.Log("Trigger De-activated");
+        currentSpeed = 10.0f;
     }
 }
