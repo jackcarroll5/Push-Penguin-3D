@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class EggControl : MonoBehaviour
     public float TimeCount, Timer = 3;
     public GameObject Enemy;
     Vector3 CurrentPosition;
+    GameManagerControl theManager;
     // Variables Declared
     void Start()
     {
@@ -41,9 +43,11 @@ public class EggControl : MonoBehaviour
             Instantiate(Enemy, CurrentPosition, Quaternion.identity);
             Destroy(this.gameObject);
         }
+        //Raycast to player
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
+        print("NOT");
         if (other.tag == "IceBlock")
             NotInIce = false;
     }
@@ -51,9 +55,16 @@ public class EggControl : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
 
+        print("NOT");
         if (other.tag == "IceBlock")
             NotInIce = true;
         TimeCount = 0;
 
+    }
+
+
+    internal void IAm(GameManagerControl gameManagerControl)
+    {
+        theManager = gameManagerControl;
     }
 }

@@ -48,11 +48,13 @@ public class PenguinControl : Movement {
         Ray r = new Ray(transform.position, transform.forward);
         RaycastHit info = new RaycastHit();
 
-        if (Physics.Raycast(r,out info))
+        Debug.DrawRay(transform.position, this.transform.forward, Color.blue);
+        if (Physics.Raycast(r,out info, 4f))
         {
             IceBlockController iceBlock = info.collider.GetComponent<IceBlockController>();
 
             if (iceBlock) iceBlock.push(this.transform.position);
+            Debug.Log("RayCast works");
 
         }
     }
@@ -124,13 +126,24 @@ public class PenguinControl : Movement {
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger Activated");
-        //currentSpeed = 0;
+        Debug.Log("Working...");
+        MoveBackward();
     }
 
     public void OnTriggerExit(Collider other)
     {
-        Debug.Log("Trigger De-activated");
-        currentSpeed = 10.0f;
+       Debug.Log("Trigger De-activated");
+       currentSpeed = 10.0f;
+      
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<IceBlockController>())
+        {
+            Debug.Log("Collision with Ice Block Dave");
+        }
+        else
+            Debug.Log("not a collision we wanted");
     }
 }
