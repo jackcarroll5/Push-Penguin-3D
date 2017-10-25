@@ -8,7 +8,7 @@ using UnityEngine;
 public class GameManagerControl : MonoBehaviour
 {
 
-    public enum ItemType { Apple, Banana, Cherry }
+    public enum ItemType { Apple, Banana, Cherry, Egg }
 
 
     private List<EggControl> eggs;
@@ -19,17 +19,19 @@ public class GameManagerControl : MonoBehaviour
 
     public Transform itemClone;
 
+    public Transform eggClone;
 
     WorldControl theWorld;
 
  
-    //public int EggSpawn()
-
-    //{
-    //    //Spawn Egg
-
-    //    eggs.Add(egg);
-    //}
+    public void EggSpawn()
+    {
+        ItemType newItemType = (ItemType.Egg);
+        Vector3 positionToSpawn;// = theWorld.randomEmptyPosition();
+        positionToSpawn = new Vector3(1, 1, 1);
+        EggSpawnAt(positionToSpawn);
+ 
+   }
 
     public void EnemySpawn(NPCControl enemy)
     {
@@ -43,21 +45,28 @@ public class GameManagerControl : MonoBehaviour
     {
         ItemType newItemType = (ItemType)UnityEngine.Random.Range(0, 3);
 
-        Vector3 positionToSpawn = theWorld.randomEmptyPosition();
+        Vector3 positionToSpawn;// = theWorld.randomEmptyPosition();
         positionToSpawn = new Vector3(1, 1, 1);
         float timeSpawned = Time.time;
-
         ItemSpawnAt(newItemType, positionToSpawn, timeSpawned);
 
     }
 
     private void ItemSpawnAt(ItemType newItemType, Vector3 positionToSpawn, float timeSpawned)
     {
+            Transform newItem = Instantiate(itemClone, positionToSpawn, Quaternion.identity);
+            PickUpItemControl newItemControl = newItem.GetComponent<PickUpItemControl>();
+            newItemControl.YouAre(newItemType, 100 * (1 + (int)newItemType), 5.0f);
+            items.Add(newItemControl);
+    }
 
-        Transform newItem = Instantiate(itemClone, positionToSpawn, Quaternion.identity);
-        PickUpItemControl newItemControl = newItem.GetComponent<PickUpItemControl>();
-        newItemControl.YouAre(newItemType, 100 * (1 + (int)newItemType), 5.0f);
-        items.Add(newItemControl);
+
+    private void EggSpawnAt( Vector3 positionToSpawn)
+    {
+        Transform newEgg = Instantiate(eggClone, positionToSpawn, Quaternion.identity);
+        EggControl newEggControl = newEgg.GetComponent<EggControl>();
+        newEggControl.IAm(this);
+        eggs.Add(newEggControl);
     }
 
 
@@ -162,6 +171,7 @@ public class GameManagerControl : MonoBehaviour
     }
     // Update is called once per frame
     void Update(){
+        if (Input.GetKeyDown(KeyCode.E)) EggSpawn();
         if (Input.GetKeyDown(KeyCode.C)) SpawnRandomItem();
     }
 
