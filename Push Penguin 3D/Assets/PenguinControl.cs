@@ -127,7 +127,14 @@ public class PenguinControl : Movement {
     public void OnTriggerEnter(Collider other)
     {
         Debug.Log("Working...");
-        MoveBackward();
+        if (other.gameObject.GetComponent<IceBlockController>())
+        {
+            Debug.Log("Trigger with Ice Block Dave");
+            MoveBackward();
+            MoveBackward();
+            MoveBackward();
+            MoveBackward();
+        }
     }
 
     public void OnTriggerExit(Collider other)
