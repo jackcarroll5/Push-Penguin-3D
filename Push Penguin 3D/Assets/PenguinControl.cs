@@ -55,7 +55,6 @@ public class PenguinControl : Movement {
 
             if (iceBlock) iceBlock.push(this.transform.position);
             Debug.Log("RayCast works");
-
         }
     }
 
