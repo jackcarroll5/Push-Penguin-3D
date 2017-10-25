@@ -33,7 +33,7 @@ public class WorldControl : MonoBehaviour
         CreateIceBlockAt(new Vector3(i, 0, 2 * i)); 
 
 
-        border(); 
+        createWorld(); 
 
 
 
@@ -105,11 +105,17 @@ public class WorldControl : MonoBehaviour
 
 
 
-
     void CreateIceBlockAt(Vector3 v)
+    {
+        CreateIceBlockAt(v, false);
+    }
+    
+    void CreateIceBlockAt(Vector3 v, Boolean MakeItRed)
     {
         Transform newBie = Instantiate(IceBlockPreFab,SnapTo(v,v.y),Quaternion.identity);
         newBie.parent = transform;
+        if(MakeItRed)
+            newBie.GetComponent<Renderer>().material.color = Color.red;
 
 
         IceBlockController HiNewbie = newBie.gameObject.GetComponent<IceBlockController>();
@@ -139,7 +145,7 @@ public class WorldControl : MonoBehaviour
 
 
 
-    private void border()
+    private void createWorld()
     {
         for (int x = 0; x < widthOfWorld; x++)
 
@@ -149,7 +155,7 @@ public class WorldControl : MonoBehaviour
 
             {
 
-                CreateIceBlockAt(new Vector3(x, -1, z));
+                CreateIceBlockAt(new Vector3(x, -1, z), true);
 
                 if (isOntheEdge(x, z)) createWallAt(new Vector3(x, 0, z));
 
