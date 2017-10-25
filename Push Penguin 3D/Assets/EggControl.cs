@@ -41,9 +41,11 @@ public class EggControl : MonoBehaviour
             Instantiate(Enemy, CurrentPosition, Quaternion.identity);
             Destroy(this.gameObject);
         }
+        //Raycast to player
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
+        print("NOT");
         if (other.tag == "IceBlock")
             NotInIce = false;
     }
@@ -51,6 +53,7 @@ public class EggControl : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
 
+        print("NOT");
         if (other.tag == "IceBlock")
             NotInIce = true;
         TimeCount = 0;
