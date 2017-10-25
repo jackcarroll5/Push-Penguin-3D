@@ -5,11 +5,13 @@ using UnityEngine;
 public class NPCControl : MonoBehaviour, IDestoryable {
 
     /// <summary>
-    /// waiting = can move, waiting for destination;
-    /// moving = has destination, moving towards it;
+    /// waiting = can move/waiting for destination;
+    /// moving = has destination/moving towards it;
     /// still = can't move;
+    /// following = moving towards the player's last known location;
+    /// attacking = moving towards the player;
     /// </summary>
-    private enum Status { waiting, moving, still };
+    private enum Status { waiting, moving, still, following, attacking };
     private Status status;
 
     private Vector3 destination;
@@ -18,6 +20,8 @@ public class NPCControl : MonoBehaviour, IDestoryable {
 
     private int moveSpeed = 3;
     private const float STOPPING_DISTANCE = 0.06f, WAIT_TIME = 0.25f;
+
+    private static GameObject player;
     
     void Start () {
         //If there is no NPC parent, create and assign NPC parent
@@ -27,7 +31,10 @@ public class NPCControl : MonoBehaviour, IDestoryable {
         transform.SetParent(NPCParent);
         status = Status.waiting;
         raycastTarget = transform.GetChild(0);
-	}
+        //player = GameObject.Find("").GetComponent<GameManagerControl>().player[0];
+        if (player == null)
+            player = GameObject.Find("Player");
+    }
 	
 	void Update ()
     {
@@ -61,8 +68,22 @@ public class NPCControl : MonoBehaviour, IDestoryable {
                 status = Status.still;
                 StartCoroutine(WaitForNewDestination());
             }
+
         }
+
         //Raycast to player
+        Debug.DrawRay(raycastTarget.transform.position, player.transform.position - transform.position, Color.green);
+        /*
+        RaycastHit h;
+        Physics.Raycast(raycastTarget.transform.position, player.transform.position - transform.position, out h);
+        if (h.rigidbody != null) {
+            if (h.rigidbody.gameObject.name.Equals(player.name) && (player.transform.position - transform.position).magnitude < 5) {
+                print(h.rigidbody.gameObject);
+                destination = player.transform.position;
+            }
+            //print((player.transform.position - transform.position).magnitude);
+        }*/
+
     }
 
     //Kill enemy
