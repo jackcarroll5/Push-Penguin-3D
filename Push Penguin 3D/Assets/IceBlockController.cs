@@ -126,7 +126,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
                 if(scale.x <= 0 || scale.y <= 0 || scale.z <= 0)
                 {
                     this.currentState = IceBlockState.Gone;
-                    this.enabled = false;
+                    Destroy(gameObject);
                 }
                 break;
             case IceBlockState.Moving:
