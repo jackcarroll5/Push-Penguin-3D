@@ -8,38 +8,41 @@ using UnityEngine;
 public class GameManagerControl : MonoBehaviour
 {
 
-    public enum ItemType { Apple, Banana, Cherry, Egg }
+    public enum ItemType { Apple, Banana, Cherry}
 
+    private int currentLevel = 1;
 
     private List<EggControl> eggs;
     private List<PickUpItemControl> items;
     private List<NPCControl> enemies;
     private List<PenguinControl> player;
-    private int whatDestroyed;
 
     public Transform itemClone;
-
     public Transform eggClone;
+    public Transform playerClone;
 
     WorldControl theWorld;
 
  
     public void EggSpawn()
     {
-        ItemType newItemType = (ItemType.Egg);
         Vector3 positionToSpawn;// = theWorld.randomEmptyPosition();
         positionToSpawn = new Vector3(1, 1, 1);
         EggSpawnAt(positionToSpawn);
- 
    }
 
     public void EnemySpawn(NPCControl enemy)
     {
-        //Spawn Enemy
-
         enemies.Add(enemy);
     }
 
+    public void PlayerSpawn()
+
+    {
+        Vector3 positionToSpawn;// = theWorld.randomEmptyPosition();
+        positionToSpawn = new Vector3(1, 1, 1);
+        PlayerSpawnAt(positionToSpawn);
+    }
 
     private void SpawnRandomItem()
     {
@@ -50,6 +53,14 @@ public class GameManagerControl : MonoBehaviour
         float timeSpawned = Time.time;
         ItemSpawnAt(newItemType, positionToSpawn, timeSpawned);
 
+    }
+
+    private void PlayerSpawnAt(Vector3 positionToSpawn)
+    {
+        Transform newPlayer = Instantiate(playerClone, positionToSpawn, Quaternion.identity);
+        PenguinControl newPlayerControl = newPlayer.GetComponent<PenguinControl>();
+        //newPlayerControl.IAm(this);
+        player.Add(newPlayerControl);
     }
 
     private void ItemSpawnAt(ItemType newItemType, Vector3 positionToSpawn, float timeSpawned)
@@ -69,85 +80,98 @@ public class GameManagerControl : MonoBehaviour
         eggs.Add(newEggControl);
     }
 
-
-    public void PlayerSpawn(PenguinControl player)
-
-    {
-        //spawn Player
-
-        this.player.Add(player);
-
-
-    }
-
-
-
-
-
-    public void SetScore(char item)
-    {
-
-
-
-        /*switch (item)
-        {
-            case 'A':
-                {
-                    //apple.points(minScore);
-                  
-                      break;
-                }
-            case 'B':
-                {
-                    //banana.points(minScore*1.25f);
-                    break;
-                }
-            case 'S':
-                {
-                    //starberry.points(maxScore);
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }*/
-    }
-
     public void ItemDestroyed(PickUpItemControl item)
     {
-
         items.Remove(item);
-
     }
 
-    public void EnemyDestroyed(PickUpItemControl enemy)
+    public void EnemyDestroyed(NPCControl enemy)
     {
+        enemies.Remove(enemy);
+        if(enemies.Count == 0)
+        {
+            nextLevel();
+        }
+    }
 
-        //enemies.Remove(enemy);
-
-        //AddScore(ScoreControl.currentScore);
-        whatDestroyed = 2;
+    private void nextLevel()
+    {
+        throw new NotImplementedException();
     }
 
     public void EggDestroyed(EggControl egg)
     {
-
         eggs.Remove(egg);
-
-        //AddScore(ScoreControl.currentScore);
-        whatDestroyed = 1;
-
     }
 
     public void PlayerDestroyed(PenguinControl penguin)
     {
-
         player.Remove(penguin);
-
     }
 
+    public void LevelControl()
+    {
+        while (currentLevel < 4)
+        {
+            switch (currentLevel)
+            {
+                case 1:
+                    {
+                        //theWorld.LevelStart(currentLevel);
 
+                        PlayerSpawn();
+
+                        for(int i = 0; i < 5; i++)
+                        {
+                            SpawnRandomItem();
+                            EggSpawn();
+                        }
+                        //currentLevel++;
+                        break;
+                    }
+                case 2:
+                    {
+                        //theWorld.LevelStart(currentLevel);
+
+                        PlayerSpawn();
+
+                        for(int i = 0; i < 8; i++)
+                        {
+                            EggSpawn();
+
+                            if(i < 5)
+                            {
+                                SpawnRandomItem();
+                            }
+                        }
+                        //currentLevel++;
+                        break;
+                    }
+                case 3:
+                    {
+                        //theWorld.LevelStart(currentLevel);
+
+                        PlayerSpawn();
+
+                        for (int i = 0; i < 10; i++)
+                        {
+                            EggSpawn();
+
+                            if (i < 7)
+                            {
+                                SpawnRandomItem();
+                            }
+                        }
+                        //currentLevel++;
+                        break;
+                    }
+                case 4:
+                    {
+                        break;
+                    }
+            }
+        }
+    }
 
     // Use this for initialization
     void Start()
@@ -161,19 +185,12 @@ public class GameManagerControl : MonoBehaviour
         enemies = new List<NPCControl>();
         player = new List<PenguinControl>();
 
-
+        LevelControl();
     }
 
-
-    public void startOfWorld()
-    {
-
-    }
     // Update is called once per frame
     void Update(){
         if (Input.GetKeyDown(KeyCode.E)) EggSpawn();
         if (Input.GetKeyDown(KeyCode.C)) SpawnRandomItem();
     }
-
-
 }
