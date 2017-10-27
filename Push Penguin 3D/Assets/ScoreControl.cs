@@ -13,8 +13,8 @@ public class ScoreControl : MonoBehaviour, iScore {
 
    public void AddScore(int scoreIncrement)
     {
-        scoreIncrement += CurrentScore;
-       
+
+        CurrentScore += scoreIncrement;
         tree1.transform.position = new Vector3(5, 5, 0);
         tree1.text = "Score: " + CurrentScore;
         tree1.fontSize = 255;
@@ -27,6 +27,7 @@ public class ScoreControl : MonoBehaviour, iScore {
     void Start () {
       //  popUpScore = FindObjectOfType<PopUpScoreControl>();
          tree1 = GetComponent<TextMesh>();
+        AddScore(0);
         //Cube1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
        
 	}

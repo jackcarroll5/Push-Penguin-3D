@@ -54,4 +54,4 @@ MonoBehaviour:
   Cherry: {fileID: 400000, guid: 0f94bda00b8707649b8b85681e1fcc96, type: 3}
   Apple: {fileID: 4951041387963642, guid: ee8ab65d6bb152643873f93541d1654d, type: 2}
   Banana: {fileID: 400000, guid: 0f94bda00b8707649b8b85681e1fcc96, type: 3}
-  Popup: {fileID: 224449229031390846, guid: d86a28819880e7f478bfb31f549e00b5, type: 2}
+  Popup: {fileID: 4778144360456136, guid: 6fdadcd99b3125e4ca55aeccd243e975, type: 2}
