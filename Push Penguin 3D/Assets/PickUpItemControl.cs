@@ -48,7 +48,7 @@ public class PickUpItemControl : MonoBehaviour
 
             case ItemState.waiting:
 
-                if(shrinkTime <= timeAlive) currentState = ItemState.shrinking;
+                if(shrinkTime >= timeAlive) currentState = ItemState.shrinking;
 
                 break;
 
@@ -128,7 +128,7 @@ public class PickUpItemControl : MonoBehaviour
             PopUpScoreControl ps = newPopup.GetComponentInChildren<PopUpScoreControl>();
 
             if (ps)
-                ps.WithScoreOf(points);
+                ps.WithScoreOf(points, transform.position);
             else print("none");
             
      

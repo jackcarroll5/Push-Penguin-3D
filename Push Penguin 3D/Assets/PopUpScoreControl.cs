@@ -3,19 +3,34 @@ using UnityEngine;
 
 public class PopUpScoreControl : MonoBehaviour, IPopUp
 {
+    ScoreControl theScore;
+    public int MyScore
+    {
+        get { return myScore; }
+
+        private set
+        {
+            myScore = value;
+            Score.text = myScore.ToString();
+        }
+    }
+
     private int myScore = 0, test;
     private float time, speedY = 10f, speedX = 3f;
     TextMesh Score;
     private bool tester;
 
 
-    public void WithScoreOf(int score)
+    public void WithScoreOf(int score, Vector3 positionOfItem)
     {
-
-        myScore = score;
+        theScore = FindObjectOfType<ScoreControl>();
+        theScore.AddScore(score);
+        MyScore = score;
+        tester = true;
+        Score.transform.position = positionOfItem;
     }
 
-    void Start()
+    void Awake()
     {
         Score = GetComponent<TextMesh>();
         tester = false;
@@ -23,19 +38,19 @@ public class PopUpScoreControl : MonoBehaviour, IPopUp
         Score.fontSize = 255;//Dont edit this
         Score.characterSize = .03f;//Dont edit this
         #endregion
+
+        tester = true;
+        time = Time.time;
+        Score.text = "" + 5;
+
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            tester = true;
-            time = Time.time;
-            Score.text = "" + 5;
-            Score.transform.position = new Vector3(0, 0, 0);
-        }
+       
+   
+       
 
-        if (tester == true)
-        {
+      
             #region This controls the direction of the text
             if (Time.time - time >= .0f && Time.time - time <= .75f)
             {
@@ -67,7 +82,7 @@ public class PopUpScoreControl : MonoBehaviour, IPopUp
             }
             #endregion
         }
-    }
+    
 }
 //https://www.youtube.com/watch?v=fbUOG7f3jq8
 
