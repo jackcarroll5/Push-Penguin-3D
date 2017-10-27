@@ -1,55 +1,73 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
-using UnityEngine.UI;
 
-public class PopUpScoreControl : MonoBehaviour, IPopUp {
-    public Animator myAnimation;
-    int myScore = 5;
+public class PopUpScoreControl : MonoBehaviour, IPopUp
+{
+    private int myScore = 0, test;
+    private float time, speedY = 10f, speedX = 3f;
+    TextMesh Score;
+    private bool tester;
 
-    private Text myText;
-    float time;
 
     public void WithScoreOf(int score)
     {
+
         myScore = score;
-
-        time = Time.time;
-        myText = GetComponentInChildren<Text>();
-        myText.text = myScore.ToString();
-
-        myAnimation = GetComponentInChildren<Animator>();
-
-        print(myScore);
-
-
     }
 
-    // Use this for initialization
-    void Start ()
+    void Start()
     {
-        /*time = Time.time;
-        myText = GetComponentInChildren<Text>();
-        myText.text = myScore.ToString();
-
-        myAnimation = GetComponentInChildren<Animator>();
-      
-
-       // AnimatorClipInfo[] clipInfo = myAnimation.GetCurrentAnimatorClipInfo(0);
-       // Destroy(gameObject, clipInfo[0].clip.length);
-       */
-
+        Score = GetComponent<TextMesh>();
+        tester = false;
+        #region Dont edit this!
+        Score.fontSize = 255;//Dont edit this
+        Score.characterSize = .03f;//Dont edit this
+        #endregion
     }
-	
-	// Update is called once per frame
-	void Update ()
+    void Update()
     {
-        if (Time.time - time >= 1.01f)
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            Destroy(myText);
-            Destroy(myAnimation);
+            tester = true;
+            time = Time.time;
+            Score.text = "" + 5;
+            Score.transform.position = new Vector3(0, 0, 0);
+        }
 
+        if (tester == true)
+        {
+            #region This controls the direction of the text
+            if (Time.time - time >= .0f && Time.time - time <= .75f)
+            {
+                transform.Translate(new Vector3(speedX * Time.deltaTime, speedY * Time.deltaTime, 0));
+
+            }
+            else if (Time.time - time >= .75f && Time.time - time <= 1.5f)
+            {
+                transform.Translate(new Vector3(-speedX * Time.deltaTime, speedY * Time.deltaTime, 0));
+            }
+            #endregion
+
+            #region Part 1 controls when to destroy the text and part 2 stops the X and Y position in transform from incrementing every frame
+            //Part 1
+            if (Time.time - time >= 1.5f)
+            {
+
+                Score.text = "";
+                test = 0; // this cuts the translate from increasing
+                tester = false;
+            }
+
+
+            //Part 2
+            if (test == 0)
+            {
+                //this stops the x and y in translate from increasing
+                transform.Translate(new Vector3(0, 0, 0));
+            }
+            #endregion
         }
     }
 }
 //https://www.youtube.com/watch?v=fbUOG7f3jq8
+
