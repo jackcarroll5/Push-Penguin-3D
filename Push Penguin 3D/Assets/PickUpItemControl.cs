@@ -6,16 +6,20 @@ using UnityEngine;
 
 public class PickUpItemControl : MonoBehaviour
 {
+    enum ItemState { growing, waiting, shrinking, destroying}
 
-
+    ItemState currentState = ItemState.growing;
+    private float rotSpeed = 360.0f;
     private int _points = 100;
     private int minimumPoints = 50;
     private int maximumPoints = 250;
 
-
+    private float startingScale = 0.01f;
+    private float growingTime = 2.0f, growingTimer = 0f;
+    private float shrinkTime = 3.0f, shrinkingTimer = 0f;
     private float _timeAlive = 30; //Seconds
-
-
+   
+  
 
     public Transform Cherry, Apple, Banana;
     public Transform Popup;
@@ -24,14 +28,44 @@ public class PickUpItemControl : MonoBehaviour
 
     void Start()
     {
-
-
+        growingTimer = 0;
+        transform.localScale = startingScale * Vector3.one;
         theManager = FindObjectOfType<GameManagerControl>();
     
     }
     void Update()
     {
         CountdownAndDestroyYourself();
+        transform.Rotate(Vector3.up, rotSpeed*Time.deltaTime);
+
+
+        switch(currentState)
+        {
+            case ItemState.growing:
+
+                grow();
+                break;
+
+            case ItemState.waiting:
+
+                if(shrinkTime <= timeAlive) currentState = ItemState.shrinking;
+
+                break;
+
+            case ItemState.shrinking:
+
+                shrink();
+
+
+                break;
+
+            case ItemState.destroying:
+
+
+
+                break;
+
+        }
     }
 
 
@@ -163,7 +197,19 @@ public class PickUpItemControl : MonoBehaviour
 
     }
 
+    private void grow()
+    {
+        growingTimer += Time.deltaTime;
+        transform.localScale = Mathf.Lerp(startingScale, 1.0f,  (growingTimer / growingTime)) * Vector3.one;
+        if (growingTimer > growingTime) currentState = ItemState.waiting;
+    }
 
+    private void shrink()
+    {
+        shrinkingTimer += Time.deltaTime;
+        transform.localScale = Mathf.Lerp(1.0f, startingScale, (shrinkingTimer / shrinkTime)) * Vector3.one;
+        if(timeAlive < 0) currentState = ItemState.destroying;
+    }
   
 
 
