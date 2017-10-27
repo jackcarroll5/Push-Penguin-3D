@@ -35,6 +35,8 @@ public class WorldControl : MonoBehaviour
 
         createWorld(); 
 
+        //todo: Jack, spawn 5 rocks and 25 iceblocks
+
 
 
     }
@@ -62,9 +64,15 @@ public class WorldControl : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="iceBlockController"></param>
+    /// <param name="pusherPosition"></param>
+    /// <returns></returns>
     internal Vector3 getDestinationForIceblock(IceBlockController iceBlockController, Vector3 pusherPosition)
     {
-
+        /*
         Vector3 positionOfIceBlock = iceBlockController.transform.position;
 
         Vector3 direction = positionOfIceBlock - SnapTo(pusherPosition);
@@ -75,6 +83,46 @@ public class WorldControl : MonoBehaviour
 
 
         return positionOfIceBlock;
+        */
+
+        //Step 1: Check if something is in the way
+
+        //Step 2: If, return 0 for destroing
+
+        //Step 3: If not, make a raycast to get the destination for the next object that can block the iceblock
+
+        //Step 4: Return the maximum distance and wait for the collision
+        throw new Exception("maybe don't use this");
+    }
+
+    internal Vector3 getDestinationForIceblockMoving(IceBlockController iceBlockController, Vector3 pusherPosition)
+    {
+        Vector3 positionOfIceBlock = iceBlockController.transform.position;
+        Vector3 direction = positionOfIceBlock - SnapTo(pusherPosition);
+        return direction;
+
+    }
+
+    internal Boolean canMove(IceBlockController iceBlockController, Vector3 pusherPosition){
+        //Step 1: get direction
+        //Vector3 positionOfIceBlock = iceBlockController.transform.position;
+        //Vector3 direction = positionOfIceBlock - SnapTo(pusherPosition);
+
+        //Step 2: make raycast to check if there is something in the way
+        Ray r = new Ray(iceBlockController.transform.position, iceBlockController.transform.forward);
+        RaycastHit info = new RaycastHit();
+
+        Debug.DrawRay(iceBlockController.transform.position, iceBlockController.transform.forward, Color.blue);
+        if (Physics.Raycast(r, out info, 0.5f))
+        {
+            //Step3: There is somethink in the way
+            return false;
+        }
+        else
+        {
+            //Step3: There is nothing in the way, start moving
+            return true;
+        }
     }
 
 
