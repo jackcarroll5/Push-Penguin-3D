@@ -98,7 +98,7 @@ public class WorldControl : MonoBehaviour
     internal Vector3 getDestinationForIceblockMoving(IceBlockController iceBlockController, Vector3 pusherPosition)
     {
         Vector3 positionOfIceBlock = iceBlockController.transform.position;
-        Vector3 direction = positionOfIceBlock - SnapTo(pusherPosition);
+        Vector3 direction = SnapTo(positionOfIceBlock) - SnapTo(pusherPosition);
         return direction;
 
     }
