@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
-
-    interface IPopUp
+interface IPopUp
     {
 
-    void WithScoreOf(int score);
+    void WithScoreOf(int score, Vector3 position);
 
 
     }
