@@ -75,8 +75,8 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
         //    throw new Exception("You must call \"ThisIsMe\" after creating this object or the movement won't work!");
         //else
         //    // Find info for movement from world;
-
-            destinationForSlide = world.getDestinationForIceblock(this, pusherPosition);
+        /*
+            //destinationForSlide = world.getDestinationForIceblock(this, pusherPosition);
 
         // if destination is the same as position destroy block;
         velocity = speedOfIceBlock * (destinationForSlide - transform.position).normalized; // check for 0
@@ -95,6 +95,20 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
         else
         {
             currentState = IceBlockState.Moving;
+        }
+        */
+        if(world.canMove(this, pusherPosition))
+        {
+            //todo: DestinationForSlide must be changed, this one is not working
+            //destinationForSlide = world.getDestinationForIceblockMoving(this, pusherPosition);
+            velocity = world.getDestinationForIceblockMoving(this, pusherPosition);
+            // velocity = speedOfIceBlock * (destinationForSlide - transform.position).normalized; // check for 0
+            //todo: Destination should be a natural number only for straight moving
+            currentState = IceBlockState.Moving;
+        }
+        else
+        {
+            currentState = IceBlockState.Destroying;
         }
     }
 
@@ -126,7 +140,7 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
                 if(scale.x <= 0 || scale.y <= 0 || scale.z <= 0)
                 {
                     this.currentState = IceBlockState.Gone;
-                    this.enabled = false;
+                    Destroy(gameObject);
                 }
                 break;
             case IceBlockState.Moving:
@@ -135,12 +149,12 @@ public class IceBlockController : MonoBehaviour, IMoveable, IHitable, IDestoryab
                 //question for finals: how to check for direction, how to normalize a vector, how to smoth move an object
                 //vector3.dot check for 0, - or + for direction and going over destination
                 //if direction change, stop moving (and jump to destination if over?)
-                if (DestinationReached())
-                {
-                    Debug.Log("DestinationReached!");
-                    currentState = IceBlockState.Still;
-                    transform.position = destinationForSlide;
-                }                
+                //if (DestinationReached())
+                //{
+                //    Debug.Log("DestinationReached!");
+                //    currentState = IceBlockState.Still;
+                //    transform.position = destinationForSlide;
+                //}                
                 break;
         }
     }
