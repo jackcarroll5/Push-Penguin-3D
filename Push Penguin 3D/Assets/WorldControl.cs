@@ -28,9 +28,7 @@ public class WorldControl : MonoBehaviour
 
         //
 
-        for (int i = 0; i < 5; i++)
 
-        CreateIceBlockAt(new Vector3(i, 0, 2 * i)); 
 
 
         createWorld(); 
@@ -127,7 +125,13 @@ public class WorldControl : MonoBehaviour
 
 
     internal Vector3 randomEmptyPosition()
-    { return new Vector3(0, 0, 0); }
+    {
+        Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(1, widthOfWorld - 1), heightOfWorldFloor, UnityEngine.Random.Range(1, depthOfWorld - 1));
+        if (IsEmptyAt(spawnPosition)) return spawnPosition;
+        else return randomEmptyPosition();
+
+
+    }
 
 
     internal Vector3 positionForItem()
@@ -186,12 +190,40 @@ public class WorldControl : MonoBehaviour
     private bool IsEmptyAt(Vector3 Position)
     {
 
-        //todo: Try RayCast from above point straight down 
+        Ray testRay = new Ray(Position + 5.0f * Vector3.up, Vector3.down);
+        RaycastHit info;
+        if (Physics.Raycast(testRay, out info))
+        {
+            IceBlockController ice = info.collider.gameObject.GetComponent<IceBlockController>();
+            if (ice) return true;
+           
+        }
 
-        throw new System.NotImplementedException();
+        return false;
+
+    }
+    /// <summary>
+    /// Spawns Rocks, must be called before spawning Iceblocks
+    /// </summary>
+    /// <param name="howMany"></param>
+    public void spawnRandomRocks(int howMany)
+    {
+        for (int i = 0; i < howMany; i++)
+        {
+
+                createWallAt(randomEmptyPosition());
+
+        }
     }
 
+    internal void spawnRandomIceBlocks(int howMany)
+    {
+        for (int i = 0; i < howMany; i++)
+        {
+            CreateIceBlockAt(randomEmptyPosition());
 
+        }
+    }
 
     private void createWorld()
     {

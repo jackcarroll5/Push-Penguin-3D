@@ -22,8 +22,8 @@ public class GameManagerControl : MonoBehaviour
     public Transform playerClone;
 
     WorldControl theWorld;
+    private int numberOfEggs= 4;
 
- 
     public void EggSpawn()
     {
         Vector3 positionToSpawn;// = theWorld.randomEmptyPosition();
@@ -184,8 +184,20 @@ public class GameManagerControl : MonoBehaviour
         items = new List<PickUpItemControl>();
         enemies = new List<NPCControl>();
         player = new List<PenguinControl>();
+        theWorld.spawnRandomRocks(10);
+        theWorld.spawnRandomIceBlocks(20);
 
-        LevelControl();
+        Vector3 playerStartingPostion = theWorld.randomEmptyPosition();
+        Instantiate(playerClone, playerStartingPostion, Quaternion.identity);
+
+        for (int i = 0; i<numberOfEggs; i++)
+        {
+            Vector3 eggStartingPosition = theWorld.randomEmptyPosition();
+            Instantiate(eggClone, eggStartingPosition, Quaternion.identity);
+
+        }
+
+    //    LevelControl();
     }
 
     // Update is called once per frame
