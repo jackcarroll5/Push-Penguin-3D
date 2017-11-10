@@ -14,7 +14,10 @@ public class NPCControl : MonoBehaviour, IDestoryable {
     private enum Status { waiting, moving, still, following, attacking };
     private Status status;
 
-    private Vector3 destination;
+    private enum Direction { left = -1, right = 1 };
+    private bool canFollow;
+
+    private Vector3 destination, destinationWhileFollowing;
     private static Transform NPCParent;
     private Transform raycastTarget;
 
@@ -31,6 +34,8 @@ public class NPCControl : MonoBehaviour, IDestoryable {
         transform.SetParent(NPCParent);
         status = Status.waiting;
         raycastTarget = transform.GetChild(0);
+        destinationWhileFollowing = Vector3.down;
+        canFollow = true;
         //player = GameObject.Find("").GetComponent<GameManagerControl>().player[0];
         if (player == null)
             player = GameObject.Find("Player");
@@ -38,52 +43,118 @@ public class NPCControl : MonoBehaviour, IDestoryable {
 	
 	void Update ()
     {
-        //Debug.DrawRay(transform.position, transform.right * 2, Color.red);
+        //transform.forward is not working
+        print(Vector3.Dot(transform.forward, player.transform.position) + "\t" + transform.forward);
+        Debug.DrawRay(transform.position, transform.forward * 2, Color.red);
 
-        //If can move and has no destination
-        if (status == Status.waiting)
+        switch (status)
         {
-            RaycastHit hit;
-            
-            //Raycast, if the raycast hits something (ice block or wall)
-            Physics.Raycast(transform.position, transform.right, out hit);
-            if (hit.rigidbody != null)
-            {
-                //set destionation to 1 unit 'in front' of raycast his position
-                destination = hit.rigidbody.position - (hit.rigidbody.position - transform.position).normalized;
-                status = Status.moving;
-            }
-        }
-        else if (status == Status.moving)
-        {
-            //If NPC is more than STOPPING_DISTANCE away from destination
-            if ((destination - transform.position).magnitude > STOPPING_DISTANCE)
-            {
-                //Move towards destination
-                Vector3 velocity = moveSpeed * (destination - transform.position).normalized;
-                transform.position += velocity * Time.deltaTime;
-            }
-            else
-            {
-                status = Status.still;
-                StartCoroutine(WaitForNewDestination());
-            }
+            #region Waiting
+            case Status.waiting:
+                RaycastHit hit;
 
+                //Raycast, if the raycast hits something (ice block or wall)
+                Physics.Raycast(transform.position, transform.forward, out hit);
+                if (hit.rigidbody != null)
+                {
+                    //set destionation to 1 unit 'in front' of raycast his position
+                    destination = hit.rigidbody.position - (hit.rigidbody.position - transform.position).normalized;
+                    status = Status.moving;
+                }
+                break;
+            #endregion
+            #region Moving
+            case Status.moving:
+                //If NPC is more than STOPPING_DISTANCE away from destination
+                if (!HasArrived(destination))
+                    Move(destination);
+                else
+                {
+                    status = Status.still;
+                    //Always right
+                    Direction d = (Random.Range(0, 1) == 0) ? Direction.right : Direction.left;
+                    StartCoroutine(WaitForNewDestination(d));
+                }
+                break;
+            #endregion
+            #region Following
+            case Status.following:
+                //move 1 block at a time towards the player
+
+                //check left
+                float dot = Vector3.Dot(Vector3.forward, player.transform.position);
+
+                if (dot > 0)
+                {
+                    if (destinationWhileFollowing == Vector3.down)
+                    {
+                        if (canFollow)
+                            destinationWhileFollowing = transform.position + transform.forward;
+                        else
+                        {
+                            status = Status.waiting;
+                            break;
+                        }
+                    }
+
+                    if (!HasArrived(destinationWhileFollowing))
+                        Move(destinationWhileFollowing);
+                    else
+                        destinationWhileFollowing = Vector3.down;
+                    //if (dot < 0)
+                }
+                break;
+            #endregion
         }
 
         //Raycast to player
         Debug.DrawRay(raycastTarget.transform.position, player.transform.position - transform.position, Color.green);
-        /*
+        
         RaycastHit h;
         Physics.Raycast(raycastTarget.transform.position, player.transform.position - transform.position, out h);
-        if (h.rigidbody != null) {
-            if (h.rigidbody.gameObject.name.Equals(player.name) && (player.transform.position - transform.position).magnitude < 5) {
-                print(h.rigidbody.gameObject);
-                destination = player.transform.position;
-            }
-            //print((player.transform.position - transform.position).magnitude);
-        }*/
+        if (h.rigidbody != null)
+        {
+            if (h.rigidbody.gameObject.Equals(player) && (player.transform.position - transform.position).magnitude < 5)
+            {
 
+                status = Status.following;
+                //destination = player.transform.position;
+                if (!canFollow)
+                    canFollow = true;
+            }
+            else
+                canFollow = false;
+            //print(h.rigidbody.gameObject + "\t" + (player.transform.position - transform.position).magnitude);
+
+            //print((player.transform.position - transform.position).magnitude);
+        }
+        else
+            canFollow = false;
+        //Vector3 dot. if positive is facing
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="destination"></param>
+    private void Move(Vector3 dest)
+    {
+        //Move towards destination
+        Vector3 velocity = moveSpeed * (dest - transform.position).normalized;
+        transform.position += velocity * Time.deltaTime;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dest"></param>
+    /// <returns></returns>
+    private bool HasArrived(Vector3 dest)
+    {
+        if ((dest - transform.position).magnitude > STOPPING_DISTANCE)
+            return false;
+        return true;
     }
 
     //Kill enemy
@@ -97,10 +168,11 @@ public class NPCControl : MonoBehaviour, IDestoryable {
     /// Wait for WAIT_TIME seconds before rotating 90 degrees and then allowing the NPC to move again.
     /// </summary>
     /// <returns></returns>
-    IEnumerator WaitForNewDestination()
+    IEnumerator WaitForNewDestination(Direction d)
     {
+        int degrees = (d == Direction.right) ? -90 : 90;
         yield return new WaitForSeconds(WAIT_TIME);
-        transform.Rotate(0, -90, 0);
+        transform.Rotate(0, degrees, 0);
         status = Status.waiting;
     }
 }
