@@ -123,6 +123,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NotInIce: 0
   IceDestroyed: 0
-  TimeCount: 0
   Timer: 3
-  Enemy: {fileID: 1128777925619010, guid: deb4468466c6c314b84ec62c224e2908, type: 2}
+  Enemy: {fileID: 1066132164303008, guid: 2b9826edf90f78f47b6eb48143f6f390, type: 2}
