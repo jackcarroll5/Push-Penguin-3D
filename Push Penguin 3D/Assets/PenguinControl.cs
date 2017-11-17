@@ -7,40 +7,50 @@ public class PenguinControl : Movement {
 
     enum PlayerState{Moving, Still, Collecting, Pushing, Dying }
 
-    GameObject cameraControl;
-	private Vector3 playerPosition;
+   
     private float currentSpeed = 10.0f;
     private float turningSpeed = 360.0f;
+    private GameManagerControl theManager;
 
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
         if (shouldMoveForward()) MoveForward();
-        playerPosition = this.transform.position;
+
 
         if (shouldTurnLeft()) TurnLeft();
-        playerPosition = this.transform.position;
+
 
         if (shouldMoveBackward()) MoveBackward();
-        playerPosition = this.transform.position;
 
         if (shouldTurnRight()) TurnRight();
-        playerPosition = this.transform.position;
+
 
         if (shouldStrafeLeft()) StrafeLeft();
-        playerPosition = this.transform.position;
+
 
         if (shouldStrafeRight()) StrafeRight();
 
         if (shouldPush()) push();
+
+
+
+        updateCameraPosition();
         //Debug.Log(playerPosition.ToString());
 
+    }
+
+    private void updateCameraPosition()
+    {
+        Camera.main.transform.position = transform.position + 2.0f * Vector3.up - 3*  transform.forward;
+        Vector3 focus = transform.position + 5 * transform.forward;
+        Camera.main.transform.rotation = Quaternion.LookRotation((focus - Camera.main.transform.position).normalized);
     }
 
     private void push()
@@ -56,6 +66,11 @@ public class PenguinControl : Movement {
             if (iceBlock) iceBlock.push(this.transform.position);
             Debug.Log("RayCast works");
         }
+    }
+
+    internal void IAm(GameManagerControl gameManagerControl)
+    {
+        theManager = gameManagerControl;
     }
 
     private bool shouldPush()
@@ -125,21 +140,21 @@ public class PenguinControl : Movement {
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Working...");
-        if (other.gameObject.GetComponent<IceBlockController>())
-        {
-            Debug.Log("Trigger with Ice Block Dave");
-            MoveBackward();
-            MoveBackward();
-            MoveBackward();
-            MoveBackward();
-        }
+        //Debug.Log("Working...");
+        //if (other.gameObject.GetComponent<IceBlockController>())
+        //{
+        //    Debug.Log("Trigger with Ice Block Dave");
+        //    MoveBackward();
+        //    MoveBackward();
+        //    MoveBackward();
+        //    MoveBackward();
+        //}
     }
 
     public void OnTriggerExit(Collider other)
     {
-       Debug.Log("Trigger De-activated");
-       currentSpeed = 10.0f;
+       //Debug.Log("Trigger De-activated");
+       //currentSpeed = 10.0f;
       
     }
 
