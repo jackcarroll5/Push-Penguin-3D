@@ -13,8 +13,7 @@ public class ScoreControl : MonoBehaviour, iScore {
 
    public void AddScore(int scoreIncrement)
     {
-        scoreMesh.transform.parent = Camera.main.transform;
-        scoreMesh.transform.position = new Vector3(5, 5, 0);
+
         /*GameObject scoreText = new GameObject();
         TextMesh scoreMesh = new TextMesh ();
         scoreText.AddComponent (scoreMesh);
@@ -33,9 +32,11 @@ public class ScoreControl : MonoBehaviour, iScore {
         PopUpScoreControl myScore = FindObjectOfType<PopUpScoreControl>();
         scoreMesh = GetComponent<TextMesh>();
         AddScore(0);
+        scoreMesh.transform.parent = Camera.main.transform;
+        scoreMesh.transform.position = new Vector3(5, 5, 0);
         //Cube1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         //scoreMesh.transform.parent = Camera.main.transform;
-	}
+    }
 	 
 	// Update is called once per frame
 	void Update () {

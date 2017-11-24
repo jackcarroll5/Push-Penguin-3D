@@ -89,9 +89,9 @@ public class NPCControl : MonoBehaviour, IDestoryable {
             #region Following
             case Status.following:
                 //move 1 block at a time towards the player
-
+                Vector3 toPlayer = player.transform.position - transform.position;
                 //check left
-				float dot = Vector3.Dot(transform.forward, player.transform.position);
+                float dot = Vector3.Dot(transform.forward, toPlayer);
 			//print(transform.forward);
                 if (dot > 0)
                 {
@@ -125,9 +125,9 @@ public class NPCControl : MonoBehaviour, IDestoryable {
         
         RaycastHit h;
 		Physics.Raycast(raycastTarget.transform.position, player.transform.position - transform.position, out h);
-        if (h.rigidbody != null)
+        if (h.collider != null)
         {
-			if (h.rigidbody.gameObject.Equals(player) && (player.transform.position - transform.position).magnitude < 5)
+			if (h.collider.gameObject.Equals(player) && (player.transform.position - transform.position).magnitude < 5)
             {
 
                 status = Status.following;

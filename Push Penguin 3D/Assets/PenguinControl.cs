@@ -7,7 +7,6 @@ public class PenguinControl : Movement {
 
     enum PlayerState{Moving, Still, Collecting, Pushing, Dying }
 
-   
     private float currentSpeed = 10.0f;
     private float turningSpeed = 360.0f;
     private GameManagerControl theManager;
@@ -16,6 +15,7 @@ public class PenguinControl : Movement {
 
     // Use this for initialization
     void Start () {
+
 	}
 	
 	// Update is called once per frame
@@ -85,7 +85,8 @@ public class PenguinControl : Movement {
 
     private void StrafeRight()
     {
-        transform.position += currentSpeed * transform.right * Time.deltaTime;
+       // rigidBody.velocity = currentSpeed * transform.right;
+       transform.position += currentSpeed * transform.right * Time.deltaTime;
     }
 
     private bool shouldStrafeLeft()
@@ -95,7 +96,7 @@ public class PenguinControl : Movement {
 
     private void StrafeLeft()
     {
-        transform.position -= currentSpeed * transform.right * Time.deltaTime;
+     //   rigidBody.velocity =-currentSpeed * transform.right;
     }
 
     private bool shouldTurnRight()
@@ -110,7 +111,6 @@ public class PenguinControl : Movement {
 
     private void MoveBackward()
     {
-        transform.position -= currentSpeed * transform.forward * Time.deltaTime;
     }
 
     private bool shouldMoveBackward()
@@ -130,7 +130,7 @@ public class PenguinControl : Movement {
 
     private void MoveForward()
     {
-        transform.position += currentSpeed * transform.forward * Time.deltaTime;
+      
     }
 
     private bool shouldMoveForward()
@@ -138,31 +138,16 @@ public class PenguinControl : Movement {
         return Input.GetKey(KeyCode.W);
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        //Debug.Log("Working...");
-        //if (other.gameObject.GetComponent<IceBlockController>())
-        //{
-        //    Debug.Log("Trigger with Ice Block Dave");
-        //    MoveBackward();
-        //    MoveBackward();
-        //    MoveBackward();
-        //    MoveBackward();
-        //}
-    }
 
-    public void OnTriggerExit(Collider other)
-    {
-       //Debug.Log("Trigger De-activated");
-       //currentSpeed = 10.0f;
-      
-    }
+
+  
 
     public void OnCollisionEnter(Collision collision)
     {
+        transform.position -= currentSpeed * transform.forward * Time.deltaTime;
         if (collision.gameObject.GetComponent<IceBlockController>())
         {
-            Debug.Log("Collision with Ice Block Dave");
+            
         }
         else
             Debug.Log("not a collision we wanted");
