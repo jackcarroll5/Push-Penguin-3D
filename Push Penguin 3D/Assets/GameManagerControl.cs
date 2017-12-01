@@ -182,14 +182,14 @@ public class GameManagerControl : MonoBehaviour
         theWorld.spawnRandomIceBlocks(20);
 
 
-        //for (int i = 0; i < numberOfEggs; i++)
-        //{
-        //    Vector3 eggStartingPosition = theWorld.randomEmptyPosition();
-        //    EggSpawnAt(eggStartingPosition);
+        for (int i = 0; i < numberOfEggs; i++)
+        {
+            Vector3 eggStartingPosition = theWorld.randomEmptyPosition();
+            EggSpawnAt(eggStartingPosition);
+        }
 
-
-        //}
-        for (int i = 0; i < numberOfStartingItems; i++)
+           
+            for (int i = 0; i < numberOfStartingItems; i++)
             SpawnRandomItem();
 
 

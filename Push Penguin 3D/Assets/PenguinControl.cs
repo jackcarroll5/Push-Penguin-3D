@@ -15,8 +15,8 @@ public class PenguinControl : Movement {
 
     // Use this for initialization
     void Start () {
-        mask = LayerMask.GetMask("Player");
-      
+        mask = LayerMask.GetMask("Player") |  LayerMask.GetMask("PickUp");
+        
         mask = ~mask;
 	}
 	
@@ -44,9 +44,9 @@ public class PenguinControl : Movement {
         if (isOK(newPosition))
         {
             transform.position = newPosition;
-            print("moving");
+   
         }
-        else print("Stuck");
+     
 
         updateCameraPosition();
         //Debug.Log(playerPosition.ToString());
@@ -55,9 +55,7 @@ public class PenguinControl : Movement {
 
     private bool isOK(Vector3 newPosition)
     {
-        Debug.DrawLine(newPosition + 1f * Vector3.down, newPosition + 1f*Vector3.up);
-        Debug.DrawLine(newPosition + 1f * Vector3.left, newPosition + 1f * Vector3.right);
-        Debug.DrawLine(newPosition + 1f * Vector3.back, newPosition + 1f * Vector3.forward);
+
         return  !Physics.CheckSphere(newPosition , 0.4f,mask);
     }
 
